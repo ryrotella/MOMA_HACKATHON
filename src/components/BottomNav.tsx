@@ -5,9 +5,9 @@ import { usePathname } from "next/navigation";
 
 const tabs = [
   { href: "/explore", label: "Home", icon: HomeIcon },
-  { href: "/map", label: "Map", icon: MapIcon },
+  { href: "/visits", label: "Visits", icon: VisitsIcon },
   { href: "/constellation", label: "Constellation", icon: ConstellationIcon },
-  { href: "/passport", label: "Visits", icon: VisitsIcon },
+  { href: "/passport", label: "Passport", icon: StampIcon },
   { href: "/wrapped", label: "Wrapped", icon: SparklesIcon },
 ];
 
@@ -26,7 +26,7 @@ export default function BottomNav() {
             <Link
               key={tab.href}
               href={tab.href}
-              className={`flex flex-col items-center gap-0.5 px-4 py-2 text-xs font-medium transition-colors ${
+              className={`flex flex-col items-center gap-0.5 px-2 py-2 text-xs font-medium transition-colors ${
                 isActive
                   ? "text-[var(--moma-red)]"
                   : "text-gray-500 hover:text-gray-900"
@@ -75,6 +75,16 @@ function SparklesIcon({ active }: { active: boolean }) {
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={active ? "var(--moma-red)" : "currentColor"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+    </svg>
+  );
+}
+
+function StampIcon({ active }: { active: boolean }) {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={active ? "var(--moma-red)" : "currentColor"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 4h16v16H4z" />
+      <path d="M4 8h2M4 12h2M4 16h2M18 8h2M18 12h2M18 16h2M8 4v2M12 4v2M16 4v2M8 18v2M12 18v2M16 18v2" />
+      <circle cx="12" cy="12" r="3" />
     </svg>
   );
 }

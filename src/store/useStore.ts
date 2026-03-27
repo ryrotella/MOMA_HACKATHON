@@ -99,6 +99,8 @@ interface AppState {
   // UI
   selectedArtworkId: string | null;
   setSelectedArtworkId: (id: string | null) => void;
+  suppressStampToast: boolean;
+  setSuppressStampToast: (suppress: boolean) => void;
 
   // Demo
   seedDemoData: () => void;
@@ -283,6 +285,8 @@ export const useStore = create<AppState>()(
       // UI
       selectedArtworkId: null,
       setSelectedArtworkId: (id: string | null) => set({ selectedArtworkId: id }),
+      suppressStampToast: false,
+      setSuppressStampToast: (suppress: boolean) => set({ suppressStampToast: suppress }),
 
       // Demo data seeding
       seedDemoData: () => {

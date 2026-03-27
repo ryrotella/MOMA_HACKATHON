@@ -12,10 +12,16 @@ type Artwork = (typeof artworks)[number];
 
 export default function ArtworkDetail({ artwork }: { artwork: Artwork }) {
   const router = useRouter();
-  const { bookmarks, toggleBookmark, currentSession, startSession, recordArtworkView, updateDwellTime, checkAndAwardStamps, stamps } = useStore();
+  const { bookmarks, toggleBookmark, currentSession, startSession, recordArtworkView, updateDwellTime, checkAndAwardStamps, stamps, setSuppressStampToast } = useStore();
   const isBookmarked = bookmarks.includes(artwork.id);
   const dwellRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const [showAchievement, setShowAchievement] = useState(false);
+
+  // Suppress global toast while on artwork detail page
+  useEffect(() => {
+    setSuppressStampToast(true);
+    return () => setSuppressStampToast(false);
+  }, [setSuppressStampToast]);
   const [achievementStamp, setAchievementStamp] = useState<(typeof stamps)[number] | null>(null);
   const prevStampsRef = useRef<Set<string>>(new Set());
 

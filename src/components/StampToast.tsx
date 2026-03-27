@@ -6,7 +6,7 @@ import { useStore, Stamp } from "@/store/useStore";
 import { MiniStamp, STAMP_THEMES } from "@/components/StampVisuals";
 
 export default function StampToast() {
-  const { stamps } = useStore();
+  const { stamps, suppressStampToast } = useStore();
   const [toastStamp, setToastStamp] = useState<Stamp | null>(null);
   const initializedRef = useRef(false);
   const lastEarnedIdsRef = useRef<Set<string>>(new Set());
@@ -23,11 +23,13 @@ export default function StampToast() {
     const earned = stamps.filter((s) => s.earnedAt);
     const earnedIds = new Set(earned.map((s) => s.id));
 
-    // Find stamps that are new since last check
-    for (const stamp of earned) {
-      if (!lastEarnedIdsRef.current.has(stamp.id)) {
-        setToastStamp(stamp);
-        break;
+    // Find stamps that are new since last check — skip if artwork detail handles it
+    if (!suppressStampToast) {
+      for (const stamp of earned) {
+        if (!lastEarnedIdsRef.current.has(stamp.id)) {
+          setToastStamp(stamp);
+          break;
+        }
       }
     }
 

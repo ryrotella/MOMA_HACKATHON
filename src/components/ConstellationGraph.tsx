@@ -40,6 +40,7 @@ export default function ConstellationGraph({ nodes, edges, selectedNodeId, onSel
   const [transform, setTransform] = useState<Transform>({ x: 0, y: 0, k: 1 });
   const [smoothedTransform, setSmoothedTransform] = useState<Transform>({ x: 0, y: 0, k: 1 });
   const [draggingId, setDraggingId] = useState<string | null>(null);
+  const didDragRef = useRef(false);
   const dragViewRef = useRef<{ startX: number; startY: number; originX: number; originY: number } | null>(null);
   const [isAnimating, setIsAnimating] = useState(true);
 
@@ -140,9 +141,7 @@ export default function ConstellationGraph({ nodes, edges, selectedNodeId, onSel
     const element = svgRef.current;
     if (!element) return;
     const preventScroll = (event: TouchEvent) => {
-      if (event.touches.length <= 1) {
-        event.preventDefault();
-      }
+      event.preventDefault();
     };
     element.addEventListener("touchmove", preventScroll, { passive: false });
     return () => {
@@ -252,15 +251,20 @@ export default function ConstellationGraph({ nodes, edges, selectedNodeId, onSel
                 data-node="true"
                 transform={`translate(${pos.x}, ${pos.y})`}
                 className="cursor-pointer"
-                onClick={() => onSelectNode(node)}
+                onClick={() => {
+                  if (!didDragRef.current) onSelectNode(node);
+                }}
                 onPointerDown={(event) => {
                   event.stopPropagation();
+                  (event.target as Element).setPointerCapture(event.pointerId);
+                  didDragRef.current = false;
                   setDraggingId(node.id);
                   setNodeFixedPosition(node.id, pos.x, pos.y);
                 }}
                 onPointerMove={(event) => {
                   if (draggingId !== node.id) return;
                   event.stopPropagation();
+                  didDragRef.current = true;
                   const point = svgRef.current?.createSVGPoint();
                   if (!point || !svgRef.current) return;
                   point.x = event.clientX;
@@ -272,6 +276,9 @@ export default function ConstellationGraph({ nodes, edges, selectedNodeId, onSel
                 }}
                 onPointerUp={(event) => {
                   event.stopPropagation();
+                  if ((event.target as Element).hasPointerCapture(event.pointerId)) {
+                    (event.target as Element).releasePointerCapture(event.pointerId);
+                  }
                   releaseNodeFixedPosition(node.id);
                   setDraggingId(null);
                 }}
