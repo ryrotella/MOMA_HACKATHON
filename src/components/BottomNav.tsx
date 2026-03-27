@@ -4,9 +4,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const tabs = [
-  { href: "/", label: "Home", icon: HomeIcon },
-  { href: "/map", label: "Map", icon: MapIcon },
+  { href: "/explore", label: "Home", icon: HomeIcon },
+  { href: "/passport", label: "Passport", icon: StampIcon },
   { href: "/my-collection", label: "My Collection", icon: ConstellationIcon, aliases: ["/constellation"] },
+  { href: "/visits", label: "Visits", icon: VisitsIcon },
   { href: "/wrapped", label: "Wrapped", icon: SparklesIcon },
 ];
 
