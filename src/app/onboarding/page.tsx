@@ -43,6 +43,7 @@ const curatedArtworks = CURATED_PICKS.map((id) =>
 
 // Showcase art for the feature slides
 const SHOWCASE_ART = artworks.slice(0, 6);
+const DISCOVER_ART = artworks.find((a) => a.id === "sleeping-gypsy")!;
 
 // Sample stamp themes to display on the artifacts screen
 const PREVIEW_STAMPS = STAMP_THEMES.slice(0, 4);
@@ -249,8 +250,8 @@ export default function OnboardingPage() {
                   </p>
                   <div className="w-full max-w-xs aspect-[4/3] rounded-lg overflow-hidden bg-gray-100">
                     <Image
-                      src={SHOWCASE_ART[0].thumbnail}
-                      alt={SHOWCASE_ART[0].title}
+                      src={DISCOVER_ART.thumbnail}
+                      alt={DISCOVER_ART.title}
                       width={400}
                       height={300}
                       className="w-full h-full object-cover"
