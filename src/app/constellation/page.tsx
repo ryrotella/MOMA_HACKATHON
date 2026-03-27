@@ -12,14 +12,14 @@ import { useStore } from "@/store/useStore";
 const INITIAL_MAX_NODES = 120;
 
 export default function ConstellationPage() {
-  const bookmarks = useStore((state) => state.bookmarks);
+  const savedArtworks = useStore((state) => state.savedArtworks);
   const [maxNodes, setMaxNodes] = useState(INITIAL_MAX_NODES);
   const [refreshTick, setRefreshTick] = useState(0);
   const [data, setData] = useState<ConstellationResponse | null>(null);
   const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
   const [selectedNode, setSelectedNode] = useState<ConstellationNode | null>(null);
 
-  const bookmarkParam = useMemo(() => bookmarks.join(","), [bookmarks]);
+  const bookmarkParam = useMemo(() => savedArtworks.join(","), [savedArtworks]);
   const relatedNodesForSelection = useMemo(() => {
     if (!data || !selectedNode) return [];
     const nodeById = new Map(data.nodes.map((node) => [node.id, node]));
@@ -48,7 +48,7 @@ export default function ConstellationPage() {
   }, []);
 
   useEffect(() => {
-    if (bookmarks.length === 0) {
+    if (savedArtworks.length === 0) {
       setData(null);
       setSelectedNode(null);
       return;
@@ -79,7 +79,7 @@ export default function ConstellationPage() {
 
     load();
     return () => abortController.abort();
-  }, [bookmarkParam, bookmarks.length, maxNodes, refreshTick]);
+  }, [bookmarkParam, savedArtworks.length, maxNodes, refreshTick]);
 
   useEffect(() => {
     if (!selectedNode || !data) return;
@@ -89,7 +89,7 @@ export default function ConstellationPage() {
     }
   }, [data, selectedNode]);
 
-  if (bookmarks.length === 0) {
+  if (savedArtworks.length === 0) {
     return (
       <section className="constellation-page min-h-screen px-5 py-10">
         <div className="mx-auto max-w-md rounded-2xl border border-gray-200 bg-white/90 p-6 text-center text-[var(--moma-black)] shadow-sm backdrop-blur-sm">
@@ -98,13 +98,13 @@ export default function ConstellationPage() {
           </p>
           <h1 className="mb-2 text-2xl font-black">Build your collection</h1>
           <p className="mb-5 text-sm text-gray-600">
-            Bookmark artworks on the map, then explore related works from MoMA&apos;s wider archive.
+            Save artworks you like while exploring, then discover related works from MoMA&apos;s wider archive.
           </p>
           <Link
-            href="/map"
+            href="/explore"
             className="inline-flex rounded-xl bg-[var(--moma-red)] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#c80025] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--moma-red)]"
           >
-            Go to map
+            Go to explore
           </Link>
         </div>
       </section>
@@ -116,7 +116,7 @@ export default function ConstellationPage() {
       <header className="mb-3 flex items-end justify-between px-2">
         <div>
           <h1 className="text-xl font-black text-[var(--moma-black)]">My Collection</h1>
-          <p className="text-xs text-gray-600">Your bookmarks + archive discoveries</p>
+          <p className="text-xs text-gray-600">Your saved art + archive discoveries</p>
         </div>
         <ConstellationLegend />
       </header>

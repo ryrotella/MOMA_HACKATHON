@@ -22,7 +22,7 @@ export default function ExplorePage() {
   const [visibleFloor, setVisibleFloor] = useState(4);
   const [failedImageIds, setFailedImageIds] = useState<Set<string>>(new Set());
   const [isHydrated, setIsHydrated] = useState(false);
-  const { isBookmarked } = useStore();
+  const { isSavedArtwork } = useStore();
   const sectionRefs = useRef<Map<number, HTMLDivElement>>(new Map());
   const headerRef = useRef<HTMLDivElement>(null);
   const visibleArtworksByFloor = useMemo(
@@ -205,7 +205,7 @@ export default function ExplorePage() {
                           });
                         }}
                       />
-                      {isHydrated && isBookmarked(artwork.id) && (
+                      {isHydrated && isSavedArtwork(artwork.id) && (
                         <div className="absolute top-2 right-2 w-6 h-6 bg-[var(--moma-red)] rounded-full flex items-center justify-center">
                           <svg width="12" height="12" viewBox="0 0 24 24" fill="white" stroke="none">
                             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />

@@ -63,6 +63,9 @@ interface AppState {
   bookmarks: string[];
   toggleBookmark: (artworkId: string) => void;
   isBookmarked: (artworkId: string) => boolean;
+  savedArtworks: string[];
+  toggleSavedArtwork: (artworkId: string) => void;
+  isSavedArtwork: (artworkId: string) => boolean;
 
   // Onboarding
   onboardingComplete: boolean;
@@ -119,6 +122,16 @@ export const useStore = create<AppState>()(
         }
       },
       isBookmarked: (artworkId: string) => get().bookmarks.includes(artworkId),
+      savedArtworks: [],
+      toggleSavedArtwork: (artworkId: string) => {
+        const { savedArtworks } = get();
+        if (savedArtworks.includes(artworkId)) {
+          set({ savedArtworks: savedArtworks.filter((id) => id !== artworkId) });
+        } else {
+          set({ savedArtworks: [...savedArtworks, artworkId] });
+        }
+      },
+      isSavedArtwork: (artworkId: string) => get().savedArtworks.includes(artworkId),
 
       // Onboarding
       onboardingComplete: false,
@@ -330,6 +343,7 @@ export const useStore = create<AppState>()(
           },
           currentSession: demoSession,
           bookmarks: ['starry-night', 'water-lilies', 'campbell-soup', 'persistence-of-memory', 'american-people-20'],
+          savedArtworks: ['starry-night', 'water-lilies', 'campbell-soup', 'persistence-of-memory', 'american-people-20'],
           stamps: demoStamps,
           recommendations: [
             { artworkId: 'echo-narcissus', hook: 'Raw emotion that hits you before you understand why', blurb: 'Siqueiros painted this during the Spanish Civil War — a baby screaming into a devastated landscape. The scale shift between the tiny figure and the massive open mouth creates a visceral tension that Guernica only hints at.' },
@@ -342,6 +356,7 @@ export const useStore = create<AppState>()(
       resetAllData: () => {
         set({
           bookmarks: [],
+          savedArtworks: [],
           onboardingComplete: false,
           onboardingAnswers: { firstTime: null, color: null, artMedium: null },
           recommendations: [],
@@ -358,6 +373,7 @@ export const useStore = create<AppState>()(
       name: 'moma-explorer-storage',
       partialize: (state) => ({
         bookmarks: state.bookmarks,
+        savedArtworks: state.savedArtworks,
         currentSession: state.currentSession,
         pastSessions: state.pastSessions,
         onboardingComplete: state.onboardingComplete,

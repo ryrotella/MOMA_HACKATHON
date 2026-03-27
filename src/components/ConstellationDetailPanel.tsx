@@ -19,7 +19,7 @@ export default function ConstellationDetailPanel({
   onClose,
 }: Props) {
   const reduceMotion = useReducedMotion();
-  const { bookmarks, toggleBookmark } = useStore();
+  const { savedArtworks, toggleSavedArtwork } = useStore();
 
   return (
     <AnimatePresence>
@@ -136,14 +136,14 @@ export default function ConstellationDetailPanel({
             <div className="flex flex-wrap gap-2 px-4">
               {selectedNode.curatedId && (
                 <button
-                  onClick={() => toggleBookmark(selectedNode.curatedId!)}
+                  onClick={() => toggleSavedArtwork(selectedNode.curatedId!)}
                   className={`rounded-lg px-3 py-2 text-xs font-semibold ${
-                    bookmarks.includes(selectedNode.curatedId!)
+                    savedArtworks.includes(selectedNode.curatedId!)
                       ? "bg-[var(--moma-red)] text-white"
                       : "border border-gray-300 bg-white text-gray-700"
                   }`}
                 >
-                  {bookmarks.includes(selectedNode.curatedId!) ? "Remove bookmark" : "Add bookmark"}
+                  {savedArtworks.includes(selectedNode.curatedId!) ? "Unsave artwork" : "Save artwork"}
                 </button>
               )}
               {selectedNode.momaUrl && (

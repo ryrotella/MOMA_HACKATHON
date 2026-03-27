@@ -13,8 +13,8 @@ type Artwork = (typeof artworks)[number];
 
 export default function ArtworkDetail({ artwork }: { artwork: Artwork }) {
   const router = useRouter();
-  const { bookmarks, toggleBookmark, currentSession, startSession, recordArtworkView, updateDwellTime, checkAndAwardStamps, stamps, setSuppressStampToast } = useStore();
-  const isBookmarked = bookmarks.includes(artwork.id);
+  const { savedArtworks, toggleSavedArtwork, currentSession, startSession, recordArtworkView, updateDwellTime, checkAndAwardStamps, stamps, setSuppressStampToast } = useStore();
+  const isBookmarked = savedArtworks.includes(artwork.id);
   const dwellRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const [showAchievement, setShowAchievement] = useState(false);
 
@@ -89,7 +89,7 @@ export default function ArtworkDetail({ artwork }: { artwork: Artwork }) {
 
           {/* Add / Added pill — Figma: border-2 #666, rounded-full, bg white/64%, 18px medium */}
           <button
-            onClick={() => toggleBookmark(artwork.id)}
+            onClick={() => toggleSavedArtwork(artwork.id)}
             className={`flex items-center gap-2 px-4 py-0.5 rounded-full text-[18px] font-medium tracking-[-0.27px] transition-all active:scale-95 ${
               isBookmarked
                 ? "bg-[var(--moma-black)] text-white border-2 border-[var(--moma-black)]"
