@@ -256,7 +256,6 @@ export default function ConstellationGraph({ nodes, edges, selectedNodeId, onSel
                 }}
                 onPointerDown={(event) => {
                   event.stopPropagation();
-                  (event.target as Element).setPointerCapture(event.pointerId);
                   didDragRef.current = false;
                   setDraggingId(node.id);
                   setNodeFixedPosition(node.id, pos.x, pos.y);
@@ -265,20 +264,20 @@ export default function ConstellationGraph({ nodes, edges, selectedNodeId, onSel
                   if (draggingId !== node.id) return;
                   event.stopPropagation();
                   didDragRef.current = true;
-                  const point = svgRef.current?.createSVGPoint();
-                  if (!point || !svgRef.current) return;
+                  const svg = svgRef.current;
+                  if (!svg) return;
+                  const ctm = svg.getScreenCTM();
+                  if (!ctm) return;
+                  const point = svg.createSVGPoint();
                   point.x = event.clientX;
                   point.y = event.clientY;
-                  const transformed = point.matrixTransform(svgRef.current.getScreenCTM()?.inverse());
+                  const transformed = point.matrixTransform(ctm.inverse());
                   const translatedX = (transformed.x - smoothedTransform.x) / smoothedTransform.k;
                   const translatedY = (transformed.y - smoothedTransform.y) / smoothedTransform.k;
                   setNodeFixedPosition(node.id, translatedX, translatedY);
                 }}
                 onPointerUp={(event) => {
                   event.stopPropagation();
-                  if ((event.target as Element).hasPointerCapture(event.pointerId)) {
-                    (event.target as Element).releasePointerCapture(event.pointerId);
-                  }
                   releaseNodeFixedPosition(node.id);
                   setDraggingId(null);
                 }}
