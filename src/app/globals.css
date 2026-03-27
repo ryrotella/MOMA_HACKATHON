@@ -19,9 +19,39 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
+  letter-spacing: -0.015em;
 }
+
+/* Figma typography tokens */
+.text-heading { font-size: 24px; font-weight: 700; letter-spacing: -0.36px; line-height: 1.5; }
+.text-subheading { font-size: 18px; font-weight: 700; letter-spacing: -0.27px; line-height: 1.5; }
+.text-body { font-size: 16px; font-weight: 400; letter-spacing: -0.24px; line-height: 1.5; }
+.text-caption { font-size: 14px; font-weight: 400; letter-spacing: -0.21px; line-height: 1.5; }
+
+/* Figma button: 44px tall, rounded-8px */
+.btn-primary {
+  height: 44px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: -0.27px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 10px;
+}
+
+/* Figma progress segments (wrapped) */
+.progress-segment {
+  width: 64px;
+  height: 8px;
+  border-radius: 8px;
+}
+.progress-active { background-color: #171717; }
+.progress-inactive { background-color: #dedede; }
 
 /* Leaflet overrides for clean look */
 .leaflet-container {

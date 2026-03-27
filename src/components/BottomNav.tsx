@@ -4,9 +4,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const tabs = [
-  { href: "/", label: "Home", icon: HomeIcon },
+  { href: "/explore", label: "Home", icon: HomeIcon },
   { href: "/map", label: "Map", icon: MapIcon },
   { href: "/constellation", label: "Constellation", icon: ConstellationIcon },
+  { href: "/passport", label: "Visits", icon: VisitsIcon },
   { href: "/wrapped", label: "Wrapped", icon: SparklesIcon },
 ];
 
@@ -44,8 +45,18 @@ export default function BottomNav() {
 function HomeIcon({ active }: { active: boolean }) {
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={active ? "var(--moma-red)" : "currentColor"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
-      <polyline points="9 22 9 12 15 12 15 22" />
+      <circle cx="12" cy="12" r="10" />
+      <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
+    </svg>
+  );
+}
+
+function VisitsIcon({ active }: { active: boolean }) {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={active ? "var(--moma-red)" : "currentColor"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="4" width="18" height="16" rx="2" />
+      <circle cx="12" cy="12" r="3" />
+      <path d="M7 20V4" />
     </svg>
   );
 }

@@ -11,13 +11,14 @@
     "department": "Painting & Sculpture",
     "classification": "Painting",
     "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ2NzUxNyJdLFsicCIsImNvbnZlcnQiLCItcXVhbGl0eSA5MCAtcmVzaXplIDUxMng1MTJcdTAwM2UiXV0.jpg",
-    "description": "Van Gogh's swirling night sky over a village, painted during his stay at the asylum in Saint-R\u00e9my-de-Provence.",
+    "description": "Van Gogh's swirling night sky over a village, painted during his stay at the asylum in Saint-Rémy-de-Provence.",
     "tags": [
       "post-impressionism",
       "landscape",
       "iconic"
     ],
-    "popularity": 100
+    "popularity": 100,
+    "objectId": 79802
   },
   {
     "id": "les-demoiselles",
@@ -37,12 +38,13 @@
       "figurative",
       "iconic"
     ],
-    "popularity": 95
+    "popularity": 95,
+    "objectId": 79766
   },
   {
     "id": "persistence-of-memory",
     "title": "The Persistence of Memory",
-    "artist": "Salvador Dal\u00ed",
+    "artist": "Salvador Dalí",
     "year": "1931",
     "medium": "Oil on canvas",
     "dimensions": "9 1/2 x 13\" (24.1 x 33 cm)",
@@ -51,13 +53,14 @@
     "department": "Painting & Sculpture",
     "classification": "Painting",
     "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ2NzUxOSJdLFsicCIsImNvbnZlcnQiLCItcXVhbGl0eSA5MCAtcmVzaXplIDUxMng1MTJcdTAwM2UiXV0.jpg",
-    "description": "Dal\u00ed's iconic melting clocks in a dreamlike landscape, one of the most recognizable works of Surrealism.",
+    "description": "Dalí's iconic melting clocks in a dreamlike landscape, one of the most recognizable works of Surrealism.",
     "tags": [
       "surrealism",
       "iconic",
       "landscape"
     ],
-    "popularity": 98
+    "popularity": 98,
+    "objectId": 79018
   },
   {
     "id": "campbell-soup",
@@ -77,7 +80,8 @@
       "iconic",
       "still-life"
     ],
-    "popularity": 92
+    "popularity": 92,
+    "objectId": 79809
   },
   {
     "id": "water-lilies",
@@ -97,7 +101,8 @@
       "landscape",
       "iconic"
     ],
-    "popularity": 90
+    "popularity": 90,
+    "objectId": 80220
   },
   {
     "id": "dance-i",
@@ -117,7 +122,8 @@
       "figurative",
       "iconic"
     ],
-    "popularity": 85
+    "popularity": 85,
+    "objectId": 79124
   },
   {
     "id": "sleeping-gypsy",
@@ -137,7 +143,8 @@
       "figurative",
       "landscape"
     ],
-    "popularity": 78
+    "popularity": 78,
+    "objectId": 80172
   },
   {
     "id": "girl-mandolin",
@@ -157,7 +164,8 @@
       "figurative",
       "portrait"
     ],
-    "popularity": 65
+    "popularity": 65,
+    "objectId": 78549
   },
   {
     "id": "broadway-boogie",
@@ -177,7 +185,8 @@
       "geometric",
       "iconic"
     ],
-    "popularity": 75
+    "popularity": 75,
+    "objectId": 78682
   },
   {
     "id": "guernica-study",
@@ -197,7 +206,8 @@
       "sculpture",
       "innovative"
     ],
-    "popularity": 60
+    "popularity": 60,
+    "objectId": 78043
   },
   {
     "id": "christina-world",
@@ -218,7 +228,8 @@
       "iconic",
       "american"
     ],
-    "popularity": 88
+    "popularity": 88,
+    "objectId": 78455
   },
   {
     "id": "gold-marilyn",
@@ -238,7 +249,8 @@
       "portrait",
       "iconic"
     ],
-    "popularity": 82
+    "popularity": 82,
+    "objectId": 79737
   },
   {
     "id": "flag",
@@ -258,7 +270,8 @@
       "iconic",
       "american"
     ],
-    "popularity": 80
+    "popularity": 80,
+    "objectId": 78805
   },
   {
     "id": "drowning-girl",
@@ -278,7 +291,8 @@
       "figurative",
       "iconic"
     ],
-    "popularity": 77
+    "popularity": 77,
+    "objectId": 80249
   },
   {
     "id": "one-number-31",
@@ -298,7 +312,8 @@
       "abstract",
       "iconic"
     ],
-    "popularity": 83
+    "popularity": 83,
+    "objectId": 78386
   },
   {
     "id": "woman-i",
@@ -317,12 +332,13 @@
       "abstract-expressionism",
       "figurative"
     ],
-    "popularity": 70
+    "popularity": 70,
+    "objectId": 79810
   },
   {
     "id": "boy-with-tire",
     "title": "Retrospective Bust of a Woman",
-    "artist": "Salvador Dal\u00ed",
+    "artist": "Salvador Dalí",
     "year": "1933 (some elements 1970)",
     "medium": "Painted porcelain, bread, corn, feathers, paint on board, printed paper, beads, ink stand, sand, and two pens",
     "dimensions": "29 1/4 x 27 x 12 1/4\" (74.3 x 68.6 x 31.1 cm)",
@@ -331,12 +347,13 @@
     "department": "Painting & Sculpture",
     "classification": "Sculpture",
     "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ2NzUzMyJdLFsicCIsImNvbnZlcnQiLCItcXVhbGl0eSA5MCAtcmVzaXplIDUxMng1MTJcdTAwM2UiXV0.jpg",
-    "description": "Dal\u00ed's surrealist assemblage combining a porcelain bust with everyday objects.",
+    "description": "Dalí's surrealist assemblage combining a porcelain bust with everyday objects.",
     "tags": [
       "surrealism",
       "sculpture"
     ],
-    "popularity": 50
+    "popularity": 50,
+    "objectId": 79531
   },
   {
     "id": "birds-in-space",
@@ -356,7 +373,8 @@
       "abstract",
       "modernism"
     ],
-    "popularity": 68
+    "popularity": 68,
+    "objectId": 81033
   },
   {
     "id": "hope-ii",
@@ -376,7 +394,8 @@
       "figurative",
       "portrait"
     ],
-    "popularity": 72
+    "popularity": 72,
+    "objectId": 79792
   },
   {
     "id": "abaporu",
@@ -396,12 +415,13 @@
       "figurative",
       "latin-american"
     ],
-    "popularity": 55
+    "popularity": 55,
+    "objectId": null
   },
   {
     "id": "lovers-ii",
     "title": "The Lovers II",
-    "artist": "Ren\u00e9 Magritte",
+    "artist": "René Magritte",
     "year": "1928",
     "medium": "Oil on canvas",
     "dimensions": "21 3/16 x 28 7/8\" (54 x 73.4 cm)",
@@ -416,7 +436,8 @@
       "figurative",
       "portrait"
     ],
-    "popularity": 74
+    "popularity": 74,
+    "objectId": 79933
   },
   {
     "id": "black-square",
@@ -436,7 +457,8 @@
       "geometric",
       "suprematism"
     ],
-    "popularity": 58
+    "popularity": 58,
+    "objectId": 79254
   },
   {
     "id": "man-guitar",
@@ -455,7 +477,8 @@
       "cubism",
       "figurative"
     ],
-    "popularity": 52
+    "popularity": 52,
+    "objectId": 78573
   },
   {
     "id": "meret-oppenheim-fur",
@@ -475,7 +498,8 @@
       "sculpture",
       "iconic"
     ],
-    "popularity": 73
+    "popularity": 73,
+    "objectId": 80997
   },
   {
     "id": "echo-narcissus",
@@ -495,7 +519,8 @@
       "figurative",
       "political"
     ],
-    "popularity": 48
+    "popularity": 48,
+    "objectId": 80144
   },
   {
     "id": "great-wave",
@@ -516,7 +541,8 @@
       "landscape",
       "iconic"
     ],
-    "popularity": 86
+    "popularity": 86,
+    "objectId": null
   },
   {
     "id": "number-1a",
@@ -535,7 +561,8 @@
       "abstract-expressionism",
       "abstract"
     ],
-    "popularity": 70
+    "popularity": 70,
+    "objectId": 78699
   },
   {
     "id": "rothko-no61",
@@ -555,7 +582,8 @@
       "color-field",
       "abstract"
     ],
-    "popularity": 75
+    "popularity": 75,
+    "objectId": 79468
   },
   {
     "id": "convertible",
@@ -575,7 +603,8 @@
       "sculpture",
       "humorous"
     ],
-    "popularity": 45
+    "popularity": 45,
+    "objectId": 80902
   },
   {
     "id": "target-four-faces",
@@ -594,7 +623,8 @@
       "neo-dada",
       "assemblage"
     ],
-    "popularity": 62
+    "popularity": 62,
+    "objectId": 78393
   },
   {
     "id": "i-and-village",
@@ -614,7 +644,8 @@
       "figurative",
       "landscape"
     ],
-    "popularity": 67
+    "popularity": 67,
+    "objectId": 78984
   },
   {
     "id": "she-wolf",
@@ -633,7 +664,8 @@
       "abstract-expressionism",
       "figurative"
     ],
-    "popularity": 55
+    "popularity": 55,
+    "objectId": 78719
   },
   {
     "id": "houses-estaque",
@@ -652,7 +684,8 @@
       "cubism",
       "landscape"
     ],
-    "popularity": 48
+    "popularity": 48,
+    "objectId": 78572
   },
   {
     "id": "self-portrait-cropped-hair",
@@ -673,7 +706,8 @@
       "feminist",
       "iconic"
     ],
-    "popularity": 80
+    "popularity": 80,
+    "objectId": 78333
   },
   {
     "id": "garden-at-sainte-adresse",
@@ -692,7 +726,8 @@
       "impressionism",
       "landscape"
     ],
-    "popularity": 60
+    "popularity": 60,
+    "objectId": 80222
   },
   {
     "id": "vir-heroicus",
@@ -712,7 +747,8 @@
       "color-field",
       "abstract"
     ],
-    "popularity": 65
+    "popularity": 65,
+    "objectId": 79250
   },
   {
     "id": "dance-after-matisse",
@@ -732,7 +768,8 @@
       "interior",
       "iconic"
     ],
-    "popularity": 78
+    "popularity": 78,
+    "objectId": 78389
   },
   {
     "id": "map-johns",
@@ -752,7 +789,8 @@
       "abstract",
       "american"
     ],
-    "popularity": 58
+    "popularity": 58,
+    "objectId": 79372
   },
   {
     "id": "bicycle-wheel",
@@ -766,14 +804,15 @@
     "department": "Painting & Sculpture",
     "classification": "Sculpture",
     "thumbnail": "https://www.moma.org/media/W1siZiIsIjE2NTQ4MyJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=0d70070ba05bfb22",
-    "description": "Duchamp's first 'readymade' \u2014 a bicycle wheel on a stool, questioning the nature of art.",
+    "description": "Duchamp's first 'readymade' — a bicycle wheel on a stool, questioning the nature of art.",
     "tags": [
       "dada",
       "sculpture",
       "conceptual",
       "iconic"
     ],
-    "popularity": 72
+    "popularity": 72,
+    "objectId": 81631
   },
   {
     "id": "sleeping-muse",
@@ -793,7 +832,8 @@
       "modernism",
       "figurative"
     ],
-    "popularity": 64
+    "popularity": 64,
+    "objectId": 81135
   },
   {
     "id": "unique-forms",
@@ -813,7 +853,8 @@
       "sculpture",
       "iconic"
     ],
-    "popularity": 70
+    "popularity": 70,
+    "objectId": 81179
   },
   {
     "id": "three-musicians",
@@ -833,7 +874,8 @@
       "figurative",
       "iconic"
     ],
-    "popularity": 76
+    "popularity": 76,
+    "objectId": 78630
   },
   {
     "id": "two-women-at-window",
@@ -853,7 +895,8 @@
       "figurative",
       "portrait"
     ],
-    "popularity": 73
+    "popularity": 73,
+    "objectId": 78311
   },
   {
     "id": "marilyn-diptych",
@@ -873,7 +916,8 @@
       "portrait",
       "iconic"
     ],
-    "popularity": 68
+    "popularity": 68,
+    "objectId": 80100
   },
   {
     "id": "forms-in-echelon",
@@ -892,7 +936,8 @@
       "dada",
       "abstract"
     ],
-    "popularity": 38
+    "popularity": 38,
+    "objectId": null
   },
   {
     "id": "no-woman-no-cry",
@@ -911,7 +956,8 @@
       "surrealism",
       "metaphysical"
     ],
-    "popularity": 52
+    "popularity": 52,
+    "objectId": 78597
   },
   {
     "id": "blue-nude-ii",
@@ -931,7 +977,8 @@
       "abstract",
       "iconic"
     ],
-    "popularity": 72
+    "popularity": 72,
+    "objectId": 78753
   },
   {
     "id": "untitled-judd",
@@ -950,12 +997,13 @@
       "minimalism",
       "sculpture"
     ],
-    "popularity": 55
+    "popularity": 55,
+    "objectId": 81324
   },
   {
     "id": "empires-lights",
     "title": "The Empire of Light, II",
-    "artist": "Ren\u00e9 Magritte",
+    "artist": "René Magritte",
     "year": "1950",
     "medium": "Oil on canvas",
     "dimensions": "31 1/8 x 23 3/4\" (79.3 x 60.3 cm)",
@@ -969,11 +1017,12 @@
       "surrealism",
       "landscape"
     ],
-    "popularity": 68
+    "popularity": 68,
+    "objectId": 79043
   },
   {
     "id": "retrospection-2s",
-    "title": "The Meninas (after Vel\u00e1zquez)",
+    "title": "The Meninas (after Velázquez)",
     "artist": "Pablo Picasso",
     "year": "1957",
     "medium": "Oil on canvas",
@@ -983,12 +1032,13 @@
     "department": "Painting & Sculpture",
     "classification": "Painting",
     "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ2NzU2NiJdLFsicCIsImNvbnZlcnQiLCItcXVhbGl0eSA5MCAtcmVzaXplIDUxMng1MTJcdTAwM2UiXV0.jpg",
-    "description": "Picasso's monochromatic reinterpretation of Vel\u00e1zquez's masterpiece.",
+    "description": "Picasso's monochromatic reinterpretation of Velázquez's masterpiece.",
     "tags": [
       "cubism",
       "figurative"
     ],
-    "popularity": 50
+    "popularity": 50,
+    "objectId": null
   },
   {
     "id": "f-111",
@@ -1008,12 +1058,13 @@
       "political",
       "iconic"
     ],
-    "popularity": 60
+    "popularity": 60,
+    "objectId": 79805
   },
   {
     "id": "born-i",
     "title": "The Birth of the World",
-    "artist": "Joan Mir\u00f3",
+    "artist": "Joan Miró",
     "year": "1925",
     "medium": "Oil on canvas",
     "dimensions": "8' 2 3/4\" x 6' 6 3/4\" (250.8 x 200 cm)",
@@ -1022,13 +1073,14 @@
     "department": "Painting & Sculpture",
     "classification": "Painting",
     "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ2NzU2OCJdLFsicCIsImNvbnZlcnQiLCItcXVhbGl0eSA5MCAtcmVzaXplIDUxMng1MTJcdTAwM2UiXV0.jpg",
-    "description": "Mir\u00f3's cosmic abstract painting, a key work blending Surrealism with biomorphic abstraction.",
+    "description": "Miró's cosmic abstract painting, a key work blending Surrealism with biomorphic abstraction.",
     "tags": [
       "surrealism",
       "abstract",
       "biomorphic"
     ],
-    "popularity": 58
+    "popularity": 58,
+    "objectId": 78723
   },
   {
     "id": "self-portrait-beret",
@@ -1042,12 +1094,13 @@
     "department": "Painting & Sculpture",
     "classification": "Painting",
     "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ2NzU2OSJdLFsicCIsImNvbnZlcnQiLCItcXVhbGl0eSA5MCAtcmVzaXplIDUxMng1MTJcdTAwM2UiXV0.jpg",
-    "description": "Van Gogh's intense self-portrait with a palette, painted at the asylum in Saint-R\u00e9my.",
+    "description": "Van Gogh's intense self-portrait with a palette, painted at the asylum in Saint-Rémy.",
     "tags": [
       "post-impressionism",
       "portrait"
     ],
-    "popularity": 72
+    "popularity": 72,
+    "objectId": null
   },
   {
     "id": "whaam",
@@ -1066,7 +1119,8 @@
       "pop-art",
       "figurative"
     ],
-    "popularity": 55
+    "popularity": 55,
+    "objectId": 80249
   },
   {
     "id": "steel-magenta",
@@ -1085,7 +1139,8 @@
       "neo-dada",
       "abstract"
     ],
-    "popularity": 40
+    "popularity": 40,
+    "objectId": null
   },
   {
     "id": "wall-drawing",
@@ -1105,7 +1160,8 @@
       "minimalism",
       "drawing"
     ],
-    "popularity": 45
+    "popularity": 45,
+    "objectId": 79898
   },
   {
     "id": "untitled-twombly",
@@ -1124,6 +1180,7 @@
       "abstract-expressionism",
       "gestural"
     ],
-    "popularity": 50
+    "popularity": 50,
+    "objectId": 79193
   }
 ]

@@ -3,6 +3,7 @@
 import { useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toPng } from "html-to-image";
+import Image from "next/image";
 import artworks from "@/data/artworks.json";
 import type { VisitSession } from "@/store/useStore";
 
@@ -18,6 +19,12 @@ interface StorySlide {
 function getArtworkById(id: string): Artwork | undefined {
   return artworks.find((a) => a.id === id);
 }
+
+const FLOORS = [
+  { num: 5, era: "1880s–1940s" },
+  { num: 4, era: "1950s–1970s" },
+  { num: 2, era: "1980s–Present" },
+];
 
 function getArtPersonality(tags: string[]): { name: string; emoji: string; desc: string } {
   const tagCounts: Record<string, number> = {};
@@ -49,8 +56,6 @@ export default function WrappedStories({ session }: { session: VisitSession }) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [direction, setDirection] = useState(1);
   const shareRef = useRef<HTMLDivElement>(null);
-  const nowTimestamp = session.endTime ?? session.startTime;
-
   // Compute stats
   const viewedArtworks = session.artworksViewed
     .map((v) => ({ ...v, artwork: getArtworkById(v.artworkId) }))
@@ -59,45 +64,49 @@ export default function WrappedStories({ session }: { session: VisitSession }) {
   const totalArtworks = viewedArtworks.length;
   const totalFloors = session.floorsVisited.length;
   const totalGalleries = session.galleriesVisited.length;
-  const visitDuration = session.endTime
-    ? Math.round((session.endTime - session.startTime) / 60000)
-    : Math.round((nowTimestamp - session.startTime) / 60000);
 
   // Top artworks by dwell time
   const topArtworks = [...viewedArtworks]
     .sort((a, b) => b.dwellTime - a.dwellTime)
-    .slice(0, 5);
+    .slice(0, 4);
 
-  // Genre distribution
+  // Determine favorite collection era
+  const floorCounts: Record<number, number> = {};
+  for (const v of viewedArtworks) {
+    const floor = v.artwork?.floor;
+    if (floor) floorCounts[floor] = (floorCounts[floor] || 0) + 1;
+  }
+  const favoriteFloor = Object.entries(floorCounts).sort((a, b) => Number(b[1]) - Number(a[1]))[0];
+  const favoriteEra = favoriteFloor
+    ? FLOORS.find((f) => f.num === Number(favoriteFloor[0]))?.era || "1880s–Present"
+    : "1880s–Present";
+
+  // All tags for personality
   const allTags = viewedArtworks.flatMap((v) => v.artwork?.tags || []);
+  const personality = getArtPersonality(allTags);
+
+  // Top tags for "other wrapped stuff"
   const tagCounts: Record<string, number> = {};
   for (const t of allTags) tagCounts[t] = (tagCounts[t] || 0) + 1;
   const topTags = Object.entries(tagCounts)
     .sort((a, b) => b[1] - a[1])
-    .slice(0, 5);
-  const maxTagCount = topTags[0]?.[1] || 1;
+    .slice(0, 3);
 
-  // Most viewed artist
-  const artistCounts: Record<string, number> = {};
-  for (const v of viewedArtworks) {
-    const artist = v.artwork?.artist || "";
-    artistCounts[artist] = (artistCounts[artist] || 0) + 1;
-  }
-  const soulmateArtist = Object.entries(artistCounts).sort((a, b) => b[1] - a[1])[0];
-
-  // Hidden gem (lowest popularity among viewed)
-  const hiddenGem = [...viewedArtworks].sort(
-    (a, b) => (a.artwork?.popularity || 0) - (b.artwork?.popularity || 0)
-  )[0];
-
-  // Art personality
-  const personality = getArtPersonality(allTags);
+  // Date string
+  const visitDate = new Date(session.startTime).toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+  });
+  const shortDate = new Date(session.startTime).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+  });
 
   const slides: StorySlide[] = [
-    // Slide 1: Welcome
+    // Slide 1: Wrapped title (coral background matching UX)
     {
       id: "welcome",
-      bg: "bg-[var(--moma-black)]",
+      bg: "bg-[#E87461]",
       textColor: "text-white",
       render: () => (
         <div className="flex flex-col items-center justify-center h-full text-center px-8">
@@ -106,342 +115,229 @@ export default function WrappedStories({ session }: { session: VisitSession }) {
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
           >
-            <h1 className="text-5xl font-black mb-2">MoMA</h1>
-            <p className="text-xl font-light text-gray-300">Wrapped</p>
+            <h1 className="text-6xl font-black mb-4">Wrapped</h1>
           </motion.div>
           <motion.p
-            className="text-sm text-gray-400 mt-8"
+            className="text-lg text-white/70"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.8 }}
+            transition={{ delay: 0.5 }}
           >
-            Your visit on {new Date(session.startTime).toLocaleDateString("en-US", {
-              month: "long",
-              day: "numeric",
-              year: "numeric",
-            })}
+            Your MoMA visit
           </motion.p>
         </div>
       ),
     },
-    // Slide 2: By the numbers
+    // Slide 2: "beautifully curated day" with artwork collage
     {
-      id: "numbers",
-      bg: "bg-[#e4002b]",
-      textColor: "text-white",
+      id: "curated-day",
+      bg: "bg-white",
+      textColor: "text-[var(--moma-black)]",
       render: () => (
-        <div className="flex flex-col items-center justify-center h-full text-center px-8 gap-12">
+        <div className="flex flex-col items-center justify-center h-full px-6">
+          <motion.p
+            className="text-sm text-gray-500 mb-1"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          >
+            {visitDate}
+          </motion.p>
           <motion.h2
-            className="text-2xl font-bold"
+            className="text-[24px] font-bold text-center mb-8 leading-[1.5] tracking-[-0.36px] max-w-[208px]"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+          >
+            {shortDate} was a beautifully curated day
+          </motion.h2>
+          {/* Artwork collage */}
+          <motion.div
+            className="grid grid-cols-2 gap-2 w-full max-w-xs"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+          >
+            {topArtworks.slice(0, 4).map((v, i) => (
+              <div
+                key={v.artworkId}
+                className={`rounded-lg overflow-hidden bg-gray-100 ${
+                  i === 0 ? "col-span-2 aspect-[2/1]" : "aspect-square"
+                }`}
+              >
+                {v.artwork?.thumbnail && (
+                  <img
+                    src={v.artwork.thumbnail}
+                    alt={v.artwork.title}
+                    className="w-full h-full object-cover"
+                  />
+                )}
+              </div>
+            ))}
+          </motion.div>
+        </div>
+      ),
+    },
+    // Slide 3: Favorite collection era
+    {
+      id: "favorite-era",
+      bg: "bg-white",
+      textColor: "text-[var(--moma-black)]",
+      render: () => (
+        <div className="flex flex-col items-center justify-center h-full px-6">
+          <motion.p
+            className="text-sm text-gray-500 mb-2"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          >
+            Your favorite collection was
+          </motion.p>
+          <motion.h2
+            className="text-4xl font-black text-center mb-8"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.2, type: "spring" }}
+          >
+            {favoriteEra}
+          </motion.h2>
+          {/* Show artworks from that era */}
+          <motion.div
+            className="grid grid-cols-2 gap-2 w-full max-w-xs"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+          >
+            {viewedArtworks
+              .filter((v) => {
+                const floor = v.artwork?.floor;
+                return favoriteFloor && floor === Number(favoriteFloor[0]);
+              })
+              .slice(0, 4)
+              .map((v) => (
+                <div key={v.artworkId} className="aspect-square rounded-lg overflow-hidden bg-gray-100">
+                  {v.artwork?.thumbnail && (
+                    <img
+                      src={v.artwork.thumbnail}
+                      alt={v.artwork.title}
+                      className="w-full h-full object-cover"
+                    />
+                  )}
+                </div>
+              ))}
+          </motion.div>
+        </div>
+      ),
+    },
+    // Slide 4: Other wrapped stuff (stats)
+    {
+      id: "other-stats",
+      bg: "bg-white",
+      textColor: "text-[var(--moma-black)]",
+      render: () => (
+        <div className="flex flex-col items-center justify-center h-full px-8">
+          <motion.h2
+            className="text-[24px] font-bold text-center mb-10 leading-[1.5] tracking-[-0.36px] max-w-[208px]"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            Your visit in numbers
+            Other wrapped stuff
           </motion.h2>
-          <div className="space-y-8">
+          <div className="w-full max-w-xs space-y-6">
             {[
               { value: totalArtworks, label: "artworks viewed" },
               { value: totalFloors, label: "floors explored" },
               { value: totalGalleries, label: "galleries visited" },
-              { value: `${visitDuration}`, label: "minutes spent" },
             ].map((stat, i) => (
               <motion.div
                 key={stat.label}
+                className="flex items-center gap-4"
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.3 + i * 0.2 }}
+                transition={{ delay: 0.3 + i * 0.15 }}
               >
-                <div className="text-6xl font-black">{stat.value}</div>
-                <div className="text-lg font-light opacity-80">{stat.label}</div>
+                <div className="text-4xl font-black w-16 text-right">{stat.value}</div>
+                <div className="text-sm text-gray-500">{stat.label}</div>
               </motion.div>
             ))}
-          </div>
-        </div>
-      ),
-    },
-    // Slide 3: Top Artworks
-    {
-      id: "top-artworks",
-      bg: "bg-[#1a1a1a]",
-      textColor: "text-white",
-      render: () => (
-        <div className="flex flex-col justify-center h-full px-8">
-          <motion.h2
-            className="text-2xl font-bold mb-8 text-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-          >
-            Your top artworks
-          </motion.h2>
-          <div className="space-y-4">
-            {topArtworks.map((v, i) => (
+            {topTags.length > 0 && (
               <motion.div
-                key={v.artworkId}
-                className="flex items-center gap-4"
-                initial={{ opacity: 0, x: 40 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.2 + i * 0.15 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.9 }}
+                className="pt-4 border-t border-gray-100"
               >
-                <span className="text-3xl font-black text-gray-500 w-8">
-                  {i + 1}
-                </span>
-                <div className="flex-1">
-                  <p className="font-semibold text-sm">{v.artwork?.title}</p>
-                  <p className="text-xs text-gray-400">{v.artwork?.artist}</p>
+                <p className="text-xs text-gray-400 mb-2">Your top movements</p>
+                <div className="flex flex-wrap gap-2">
+                  {topTags.map(([tag, count]) => (
+                    <span key={tag} className="px-3 py-1.5 bg-gray-100 text-gray-700 text-xs font-medium rounded-full capitalize">
+                      {tag.replace(/-/g, " ")} ({count})
+                    </span>
+                  ))}
                 </div>
               </motion.div>
-            ))}
+            )}
           </div>
         </div>
       ),
     },
-    // Slide 4: Art DNA
-    {
-      id: "art-dna",
-      bg: "bg-[#0066cc]",
-      textColor: "text-white",
-      render: () => (
-        <div className="flex flex-col justify-center h-full px-8">
-          <motion.h2
-            className="text-2xl font-bold mb-2 text-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-          >
-            Your Art DNA
-          </motion.h2>
-          <motion.p
-            className="text-sm text-blue-200 text-center mb-8"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-          >
-            What draws you in
-          </motion.p>
-          <div className="space-y-4">
-            {topTags.map(([tag, count], i) => (
-              <motion.div
-                key={tag}
-                initial={{ opacity: 0, scaleX: 0 }}
-                animate={{ opacity: 1, scaleX: 1 }}
-                transition={{ delay: 0.3 + i * 0.1, duration: 0.5 }}
-                style={{ transformOrigin: "left" }}
-              >
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-sm font-medium capitalize">{tag.replace(/-/g, " ")}</span>
-                  <span className="text-xs text-blue-200">{count}</span>
-                </div>
-                <div className="h-3 bg-blue-800 rounded-full overflow-hidden">
-                  <motion.div
-                    className="h-full bg-white rounded-full"
-                    initial={{ width: 0 }}
-                    animate={{ width: `${(count / maxTagCount) * 100}%` }}
-                    transition={{ delay: 0.5 + i * 0.1, duration: 0.8 }}
-                  />
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      ),
-    },
-    // Slide 5: Soulmate Artist
-    ...(soulmateArtist
-      ? [
-          {
-            id: "soulmate",
-            bg: "bg-[#8B5CF6]",
-            textColor: "text-white",
-            render: () => (
-              <div className="flex flex-col items-center justify-center h-full text-center px-8">
-                <motion.div
-                  initial={{ scale: 0, rotate: -180 }}
-                  animate={{ scale: 1, rotate: 0 }}
-                  transition={{ type: "spring", duration: 0.8 }}
-                  className="text-7xl mb-6"
-                >
-                  💜
-                </motion.div>
-                <motion.h2
-                  className="text-lg font-medium text-purple-200 mb-2"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.4 }}
-                >
-                  Your soulmate artist
-                </motion.h2>
-                <motion.p
-                  className="text-4xl font-black"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.6 }}
-                >
-                  {soulmateArtist[0]}
-                </motion.p>
-                <motion.p
-                  className="text-sm text-purple-200 mt-3"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.9 }}
-                >
-                  You viewed {soulmateArtist[1]} of their works
-                </motion.p>
-              </div>
-            ),
-          } as StorySlide,
-        ]
-      : []),
-    // Slide 6: Hidden Gem
-    ...(hiddenGem
-      ? [
-          {
-            id: "hidden-gem",
-            bg: "bg-[#059669]",
-            textColor: "text-white",
-            render: () => (
-              <div className="flex flex-col items-center justify-center h-full text-center px-8">
-                <motion.div
-                  initial={{ opacity: 0, y: -40 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ type: "spring" }}
-                  className="text-7xl mb-6"
-                >
-                  💎
-                </motion.div>
-                <motion.h2
-                  className="text-lg font-medium text-emerald-200 mb-4"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.3 }}
-                >
-                  Your hidden gem discovery
-                </motion.h2>
-                <motion.p
-                  className="text-3xl font-black"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.5 }}
-                >
-                  {hiddenGem.artwork?.title}
-                </motion.p>
-                <motion.p
-                  className="text-sm text-emerald-200 mt-2"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.7 }}
-                >
-                  by {hiddenGem.artwork?.artist}
-                </motion.p>
-                <motion.p
-                  className="text-xs text-emerald-300 mt-4 max-w-xs"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.9 }}
-                >
-                  Not everyone finds this one — you have a great eye.
-                </motion.p>
-              </div>
-            ),
-          } as StorySlide,
-        ]
-      : []),
-    // Slide 7: Art Personality
-    {
-      id: "personality",
-      bg: "bg-[#F59E0B]",
-      textColor: "text-[var(--moma-black)]",
-      render: () => (
-        <div className="flex flex-col items-center justify-center h-full text-center px-8">
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ type: "spring", duration: 0.6 }}
-            className="text-8xl mb-6"
-          >
-            {personality.emoji}
-          </motion.div>
-          <motion.h2
-            className="text-lg font-medium text-amber-800 mb-2"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-          >
-            You are
-          </motion.h2>
-          <motion.p
-            className="text-4xl font-black"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-          >
-            {personality.name}
-          </motion.p>
-          <motion.p
-            className="text-base text-amber-800 mt-4 max-w-xs"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8 }}
-          >
-            {personality.desc}
-          </motion.p>
-        </div>
-      ),
-    },
-    // Slide 8: Shareable card
+    // Slide 5: Profile / Share card (matches UX - dark card with personality)
     {
       id: "share",
       bg: "bg-[var(--moma-black)]",
       textColor: "text-white",
       render: () => (
         <div className="flex flex-col items-center justify-center h-full px-6">
+          {/* Figma: black card, rounded-8px, 332px wide, px-16 py-24 */}
           <div
             ref={shareRef}
-            className="bg-white text-[var(--moma-black)] rounded-2xl p-6 w-full max-w-xs shadow-2xl"
+            className="bg-black text-white w-[332px] rounded-[8px] px-4 py-6 flex flex-col items-center justify-between"
+            style={{ minHeight: 480 }}
           >
-            <div className="text-center space-y-4">
-              <h3 className="text-2xl font-black">MoMA Wrapped</h3>
-              <div className="text-5xl">{personality.emoji}</div>
-              <p className="font-bold text-lg">{personality.name}</p>
-              <div className="grid grid-cols-3 gap-2 text-center">
-                <div>
-                  <div className="text-xl font-black">{totalArtworks}</div>
-                  <div className="text-[10px] text-gray-500">artworks</div>
-                </div>
-                <div>
-                  <div className="text-xl font-black">{totalGalleries}</div>
-                  <div className="text-[10px] text-gray-500">galleries</div>
-                </div>
-                <div>
-                  <div className="text-xl font-black">{visitDuration}m</div>
-                  <div className="text-[10px] text-gray-500">spent</div>
-                </div>
-              </div>
-              {topArtworks[0] && (
-                <p className="text-xs text-gray-500">
-                  Favorite: {topArtworks[0].artwork?.title}
-                </p>
+            <div className="text-center w-full space-y-1">
+              <p className="text-[18px] font-bold tracking-[-0.27px]">Your taste profile</p>
+              <h3 className="text-[24px] font-bold tracking-[-0.36px]">{personality.name}</h3>
+            </div>
+
+            <div className="w-full my-4">
+              {/* Top artwork image */}
+              {topArtworks[0]?.artwork?.thumbnail && (
+                <img
+                  src={topArtworks[0].artwork.thumbnail}
+                  alt={topArtworks[0].artwork.title}
+                  className="w-full h-auto rounded object-cover"
+                />
               )}
-              <p className="text-[10px] text-gray-300 pt-2">
-                moma-explorer.vercel.app
-              </p>
+              {/* Facts bullets */}
+              <div className="flex gap-12 mt-4 text-[16px] font-bold tracking-[-0.24px]">
+                <ul className="list-disc ml-6 space-y-0">
+                  <li>{totalArtworks} works</li>
+                  <li>{totalFloors} floors</li>
+                </ul>
+                <ul className="list-disc ml-6 space-y-0">
+                  <li>{totalGalleries} galleries</li>
+                  <li>{favoriteEra}</li>
+                </ul>
+              </div>
+            </div>
+
+            {/* MoMA branding — Figma: 24px bold + 16px bold */}
+            <div className="flex items-center gap-[35px] w-full">
+              <p className="text-[24px] font-bold tracking-[-0.36px]">MoMA</p>
+              <p className="text-[16px] font-bold tracking-[-0.24px]">moma.org/passport</p>
             </div>
           </div>
+
+          {/* Share button — Figma: #080808, h-44px, rounded-8px, 24px bold */}
           <motion.div
-            className="flex gap-3 mt-6"
+            className="w-full max-w-[361px] mt-6 px-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
           >
             <button
               onClick={handleShare}
-              className="bg-white text-[var(--moma-black)] px-6 py-3 rounded-xl font-bold text-sm hover:bg-gray-100 transition-colors"
+              className="btn-primary bg-[#080808] text-white text-[24px]"
             >
               Share
-            </button>
-            <button
-              onClick={handleDownload}
-              className="border-2 border-white text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-white/10 transition-colors"
-            >
-              Download
             </button>
           </motion.div>
         </div>
@@ -513,15 +409,16 @@ export default function WrappedStories({ session }: { session: VisitSession }) {
       className={`fixed inset-0 z-50 ${slide.bg} ${slide.textColor} cursor-pointer select-none`}
       onClick={handleTap}
     >
-      {/* Progress bar */}
-      <div className="absolute top-0 left-0 right-0 z-10 flex gap-1 px-3 pt-3">
+      {/* Progress bar — Figma: 64px x 8px segments, 3px gap, centered */}
+      <div className="absolute top-0 left-0 right-0 z-10 flex gap-[3px] justify-center p-[10px] pt-[32px]">
         {slides.map((_, i) => (
-          <div key={i} className="flex-1 h-1 rounded-full overflow-hidden bg-white/20">
-            <div
-              className="h-full bg-white rounded-full transition-all duration-300"
-              style={{ width: i <= currentSlide ? "100%" : "0%" }}
-            />
-          </div>
+          <div
+            key={i}
+            className="progress-segment transition-colors duration-300"
+            style={{
+              backgroundColor: i <= currentSlide ? "#171717" : "#dedede",
+            }}
+          />
         ))}
       </div>
 

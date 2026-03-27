@@ -1,14 +1,12 @@
 import Link from "next/link";
+import DevControls from "@/components/DevControls";
 
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-6">
       <div className="max-w-sm w-full text-center space-y-8">
-        {/* MoMA wordmark */}
-        <div className="space-y-2">
-          <h1 className="text-5xl font-black tracking-tight">MoMA</h1>
-          <p className="text-lg text-gray-500 font-light">Explorer</p>
-        </div>
+        {/* MoMA wordmark — triple-tap for dev controls */}
+        <DevControls />
 
         <p className="text-gray-600 text-sm leading-relaxed">
           Your personal companion for the Museum of Modern Art.
@@ -17,16 +15,16 @@ export default function Home() {
 
         <div className="space-y-3">
           <Link
-            href="/map"
+            href="/onboarding"
             className="block w-full bg-[var(--moma-black)] text-white py-3.5 px-6 rounded-xl font-semibold text-center hover:bg-gray-800 transition-colors"
           >
-            Start Exploring
+            Get Started
           </Link>
           <Link
-            href="/wrapped"
+            href="/explore"
             className="block w-full border-2 border-[var(--moma-black)] text-[var(--moma-black)] py-3.5 px-6 rounded-xl font-semibold text-center hover:bg-gray-50 transition-colors"
           >
-            View My Wrapped
+            Skip to Explore
           </Link>
         </div>
 

@@ -37,24 +37,43 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 | Feature | Description |
 |---------|-------------|
+| Onboarding | Multi-step quiz: Starry Night → mood → preferences → time → art showcase slides |
+| AI Recommendations | Claude Sonnet-powered top-3 personalized artwork picks with hooks and blurbs |
+| Explore Page | Scrollable artwork grid organized by floor with filter tabs and gallery labels |
 | Interactive Map | SVG floor plans for floors 2, 4, 5 with gallery pins, popups, 2D/3D toggle |
-| Artwork Detail | Full metadata, real MoMA images, tags, bookmarking, dwell-time tracking |
+| Artwork Detail | Full metadata, real MoMA images, tags, bookmarking, dwell-time tracking, stamp triggers |
 | Constellation | Force-directed bookmark + archive graph with bottom sheet details |
+| Passport & Stamps | Digital passport with 14 achievement stamps across 5 categories (era, movement, explorer, hidden-gem, trail) |
 | Wrapped Stories | 8-slide Spotify-style recap: stats, top artworks, Art DNA, personality |
 | Visit Tracking | Session start/end, artwork views, dwell time, floors/galleries visited |
 | Bookmarks | Persist favorites in localStorage |
+
+### User Flow
+
+QR scan → **Homepage** (`/`) → **Onboarding** (`/onboarding`, 7 steps) → **AI Recommendations** (`/recommendations`) → **Explore** / **Map** / **Passport** → **Wrapped**
 
 ### Routes
 
 | Route | Component | Description |
 |-------|-----------|-------------|
-| `/` | `page.tsx` | Homepage with CTA buttons and stats |
+| `/` | `page.tsx` | Landing page — "Get Started" → onboarding, "Skip to Explore" |
+| `/onboarding` | `onboarding/page.tsx` | 7-step onboarding quiz (no bottom nav) |
+| `/recommendations` | `recommendations/page.tsx` | AI-generated top 3 picks (no bottom nav) |
+| `/explore` | `explore/page.tsx` | Scrollable artwork grid by floor with filters |
 | `/map` | `map/page.tsx` | Floor map with tabs, 2D/3D toggle |
+| `/passport` | `passport/page.tsx` | Stamps, recent visits, saved artworks |
 | `/artwork/[id]` | `artwork/[id]/page.tsx` | SSG artwork detail (57 pages) |
 | `/constellation` | `constellation/page.tsx` | Force graph from bookmarks + archive relations |
 | `/wrapped` | `wrapped/page.tsx` | Wrapped story experience |
+| `/api/recommend` | `api/recommend/route.ts` | POST — Claude Sonnet recommendation engine |
 | `/api/moma` | `api/moma/route.ts` | MoMA API proxy (for future live data) |
 | `/api/constellation` | `api/constellation/route.ts` | Graph payload from curated + SQLite (+ optional API enrichment) |
+
+### Navigation
+
+Bottom nav (4 tabs): **Explore** · **Map** · **Passport** · **Wrapped**
+
+Hidden on: `/`, `/onboarding`, `/recommendations` (full-screen flows)
 
 ---
 
@@ -63,26 +82,32 @@ This version has breaking changes — APIs, conventions, and file structure may 
 ```
 src/
 ├── app/
-│   ├── page.tsx              # Homepage
-│   ├── layout.tsx            # Root layout + BottomNav
+│   ├── page.tsx              # Landing page → onboarding or explore
+│   ├── layout.tsx            # Root layout + conditional NavClient
 │   ├── globals.css           # Tailwind + Leaflet overrides + CSS vars
+│   ├── onboarding/page.tsx   # 7-step onboarding quiz
+│   ├── recommendations/page.tsx # AI top-3 recommendations view
+│   ├── explore/page.tsx      # Scrollable artwork grid by floor
 │   ├── map/page.tsx          # Map page + floor tabs + 2D/3D toggle
 │   ├── artwork/[id]/page.tsx # Artwork detail (SSG)
 │   ├── constellation/page.tsx# Constellation graph experience
+│   ├── passport/page.tsx     # Stamps + visited artworks + saved
 │   ├── wrapped/page.tsx      # Wrapped entry point
 │   └── api/
-│      ├── moma/route.ts      # MoMA API proxy
-│      └── constellation/route.ts # Constellation data API
+│       ├── recommend/route.ts # POST — Claude Sonnet recommendations
+│       ├── moma/route.ts     # MoMA API proxy
+│       └── constellation/route.ts # Constellation data API
 ├── components/
 │   ├── FloorMap.tsx          # Leaflet map + pins + popups
-│   ├── ArtworkDetail.tsx     # Artwork detail view
+│   ├── ArtworkDetail.tsx     # Artwork detail + stamp triggers
 │   ├── ConstellationGraph.tsx# Force graph renderer + controls
 │   ├── ConstellationDetailPanel.tsx # Bottom sheet metadata panel
 │   ├── ConstellationLegend.tsx # Graph visual key
 │   ├── WrappedStories.tsx    # 8-slide story experience
-│   └── BottomNav.tsx         # Tab navigation
+│   ├── BottomNav.tsx         # Tab navigation (Explore, Map, Passport, Wrapped)
+│   └── NavClient.tsx         # Conditional nav — hides on full-screen flows
 ├── store/
-│   └── useStore.ts           # Zustand store (bookmarks, sessions, visits)
+│   └── useStore.ts           # Zustand store (see Data Schemas below)
 ├── lib/
 │   ├── constellation.ts      # Types + scoring + transforms
 │   └── constellation-db.ts   # SQLite server-only query helpers
@@ -141,18 +166,58 @@ interface GalleriesData {
 ### Zustand Store (`src/store/useStore.ts`)
 
 ```typescript
+interface OnboardingAnswers {
+  firstTime: boolean | null;
+  starryNight: boolean | null;
+  mood: string | null;       // contemplative | energized | curious | surprised
+  preference: string | null; // bold-color | quiet-moments | big-ideas | strange-beauty
+  timeAvailable: string | null; // 1hr | 2hrs | half-day
+}
+
+interface Recommendation {
+  artworkId: string;
+  hook: string;    // "why you'll love this" one-liner
+  blurb: string;   // curated description from AI
+}
+
+interface Stamp {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;      // emoji
+  category: 'era' | 'movement' | 'trail' | 'explorer' | 'hidden-gem';
+  earnedAt?: number; // timestamp when earned, undefined = locked
+}
+
 interface AppState {
   // Bookmarks
   bookmarks: string[];
   toggleBookmark: (artworkId: string) => void;
+
+  // Onboarding
+  onboardingComplete: boolean;
+  onboardingAnswers: OnboardingAnswers;
+  setOnboardingAnswer: (key, value) => void;
+  completeOnboarding: () => void;  // also auto-starts session
+  resetOnboarding: () => void;
+
+  // AI Recommendations
+  recommendations: Recommendation[];
+  recommendationsLoading: boolean;
+  setRecommendations: (recs) => void;
+
+  // Stamps (14 definitions — see STAMP_DEFINITIONS in store)
+  stamps: Stamp[];
+  earnStamp: (stampId: string) => void;
+  checkAndAwardStamps: (artworkId, tags, floor, popularity) => void;
 
   // Visit tracking
   currentSession: VisitSession | null;
   pastSessions: VisitSession[];
   startSession: () => void;
   endSession: () => void;
-  recordArtworkView: (artworkId: string, gallery: string, floor: number) => void;
-  updateDwellTime: (artworkId: string, seconds: number) => void;
+  recordArtworkView: (artworkId, gallery, floor) => void;
+  updateDwellTime: (artworkId, seconds) => void;
 
   // Map state
   currentFloor: number;
@@ -161,6 +226,10 @@ interface AppState {
 ```
 
 Storage key: `moma-explorer-storage` (localStorage)
+
+Persisted fields: `bookmarks`, `currentSession`, `pastSessions`, `onboardingComplete`, `onboardingAnswers`, `recommendations`, `stamps`
+
+**Note for Justin's inventory/past-viewed page**: Read `currentSession.artworksViewed` for visit history (each entry has `artworkId`, `timestamp`, `dwellTime`). `bookmarks` has saved artwork IDs. `stamps` has all achievement state.
 
 ---
 
@@ -195,10 +264,12 @@ Storage key: `moma-explorer-storage` (localStorage)
 
 ```bash
 # .env.local (gitignored)
-NEXT_PUBLIC_MOMA_API_TOKEN=your_token_here
+NEXT_PUBLIC_MOMA_API_TOKEN=your_token_here   # MoMA API (may be expired)
+ANTHROPIC_API_KEY=sk-ant-...                 # Claude Sonnet for /api/recommend
+REPLICATE_API_TOKEN=r8_...                   # Replicate (available, not yet used)
 ```
 
-**Note**: MoMA API token may be expired. Current artwork data sourced from MoMA GitHub CSV dataset. API proxy at `/api/moma` ready if token is refreshed.
+**Note**: MoMA API token may be expired. Current artwork data sourced from MoMA GitHub CSV dataset. API proxy at `/api/moma` ready if token is refreshed. Anthropic key is required for the AI recommendation engine.
 
 ---
 
@@ -277,7 +348,17 @@ npm/pnpm run lint         # Lint code
 
 ---
 
-## Related Project: MoMA API Playground
+## Related Projects
+
+### MoMA Collection Database (`_db_moma-collection` submodule)
+
+SQLite database built from MoMA's official open collection (~160k artworks, ~15.8k artists). See [justinjohnso/moma_collection-db](https://github.com/justinjohnso/moma_collection-db).
+
+- Primary key: `ObjectID` — cross-referenced via `objectId` field in `artworks.json`
+- Fields: `Title`, `Artist`, `Date`, `Medium`, `Dimensions`, `ThumbnailURL`, `Department`, `Classification`
+- **Not in MoMA DB** (manually curated): `gallery`, `floor`, `tags`, `popularity`, `description`
+
+### MoMA API Playground
 
 The sibling `_app_moma-api` directory contains an **Astro 6 + React 19** app for interactive API documentation.
 
@@ -293,6 +374,8 @@ The sibling `_app_moma-api` directory contains an **Astro 6 + React 19** app for
 
 - **MoMA API token expired** — returns "Input or token is not valid". Artwork images sourced from GitHub CSV instead.
 - **Some gallery assignments may be stale** — MoMA rotates works regularly.
+- **Trail stamps (Color & Light, Third Dimension)** — simplified check; doesn't aggregate across all viewed artworks yet.
+- **Some artworks in dataset may not be in MoMA's actual collection** — cross-referencing with `_db_moma-collection` in progress.
 
 ---
 
