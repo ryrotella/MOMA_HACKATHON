@@ -18,10 +18,8 @@ export interface VisitSession {
 // Onboarding
 export interface OnboardingAnswers {
   firstTime: boolean | null;
-  starryNight: boolean | null;
-  mood: string | null;       // contemplative | energized | curious | surprised
-  preference: string | null; // bold-color | quiet-moments | big-ideas | strange-beauty
-  timeAvailable: string | null; // 1hr | 2hrs | half-day
+  color: string | null;      // black | red | blue | gold
+  artMedium: string | null;  // painting | sculpture | prints | photography
 }
 
 // AI Recommendations
@@ -126,10 +124,8 @@ export const useStore = create<AppState>()(
       onboardingComplete: false,
       onboardingAnswers: {
         firstTime: null,
-        starryNight: null,
-        mood: null,
-        preference: null,
-        timeAvailable: null,
+        color: null,
+        artMedium: null,
       },
       setOnboardingAnswer: (key, value) => {
         set({
@@ -149,10 +145,8 @@ export const useStore = create<AppState>()(
           onboardingComplete: false,
           onboardingAnswers: {
             firstTime: null,
-            starryNight: null,
-            mood: null,
-            preference: null,
-            timeAvailable: null,
+            color: null,
+            artMedium: null,
           },
           recommendations: [],
         });
@@ -331,10 +325,8 @@ export const useStore = create<AppState>()(
           onboardingComplete: true,
           onboardingAnswers: {
             firstTime: true,
-            starryNight: true,
-            mood: 'curious',
-            preference: 'bold-color',
-            timeAvailable: '2hrs',
+            color: 'black',
+            artMedium: 'painting',
           },
           currentSession: demoSession,
           bookmarks: ['starry-night', 'water-lilies', 'campbell-soup', 'persistence-of-memory', 'american-people-20'],
@@ -351,7 +343,7 @@ export const useStore = create<AppState>()(
         set({
           bookmarks: [],
           onboardingComplete: false,
-          onboardingAnswers: { firstTime: null, starryNight: null, mood: null, preference: null, timeAvailable: null },
+          onboardingAnswers: { firstTime: null, color: null, artMedium: null },
           recommendations: [],
           recommendationsLoading: false,
           stamps: STAMP_DEFINITIONS.map((s) => ({ ...s })),
