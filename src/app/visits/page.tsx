@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
+import ArtworkImage from "@/components/ArtworkImage";
 import Link from "next/link";
 import { useStore } from "@/store/useStore";
 import artworks from "@/data/artworks.json";
@@ -64,7 +64,7 @@ export default function VisitsPage() {
                       className="block group"
                     >
                       <div className="relative aspect-square rounded-xl overflow-hidden bg-gray-100">
-                        <Image
+                        <ArtworkImage
                           src={artwork.thumbnail}
                           alt={artwork.title}
                           width={200}

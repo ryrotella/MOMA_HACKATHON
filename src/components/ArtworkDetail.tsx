@@ -7,6 +7,7 @@ import { useStore } from "@/store/useStore";
 import { PassportStamp, STAMP_THEMES } from "@/components/StampVisuals";
 import artworks from "@/data/artworks.json";
 import Link from "next/link";
+import { ArtworkImg } from "@/components/ArtworkImage";
 
 type Artwork = (typeof artworks)[number];
 
@@ -124,11 +125,12 @@ export default function ArtworkDetail({ artwork }: { artwork: Artwork }) {
 
         {/* Artwork image */}
         <div className="bg-gray-100 rounded-xl overflow-hidden mb-6">
-          {artwork.thumbnail && artwork.thumbnail.includes("moma.org") ? (
-            <img
+          {artwork.thumbnail ? (
+            <ArtworkImg
               src={artwork.thumbnail}
               alt={artwork.title}
               className="w-full h-auto object-contain max-h-[400px]"
+              fallbackClassName="aspect-[4/3] w-full"
               loading="eager"
             />
           ) : (
@@ -190,8 +192,8 @@ export default function ArtworkDetail({ artwork }: { artwork: Artwork }) {
                   className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors"
                 >
                   <div className="w-12 h-12 bg-gray-200 rounded-lg flex items-center justify-center text-lg overflow-hidden">
-                    {r.thumbnail && r.thumbnail.includes("moma.org") ? (
-                      <img src={r.thumbnail} alt={r.title} className="w-full h-full object-cover" />
+                    {r.thumbnail ? (
+                      <ArtworkImg src={r.thumbnail} alt={r.title} className="w-full h-full object-cover" />
                     ) : (
                       "🎨"
                     )}

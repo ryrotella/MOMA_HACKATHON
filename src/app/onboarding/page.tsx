@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useStore } from "@/store/useStore";
-import Image from "next/image";
+import ArtworkImage from "@/components/ArtworkImage";
 import artworks from "@/data/artworks.json";
 import { PassportStamp } from "@/components/StampVisuals";
 import { STAMP_THEMES } from "@/components/StampVisuals";
@@ -220,7 +220,7 @@ export default function OnboardingPage() {
                   </h2>
                   <div className="w-full max-w-xs">
                     <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-gray-100">
-                      <Image
+                      <ArtworkImage
                         src={SHOWCASE_ART[1].thumbnail}
                         alt={SHOWCASE_ART[1].title}
                         width={400}
@@ -249,7 +249,7 @@ export default function OnboardingPage() {
                     didn&apos;t know you would like
                   </p>
                   <div className="w-full max-w-xs aspect-[4/3] rounded-lg overflow-hidden bg-gray-100">
-                    <Image
+                    <ArtworkImage
                       src={DISCOVER_ART.thumbnail}
                       alt={DISCOVER_ART.title}
                       width={400}
@@ -278,7 +278,7 @@ export default function OnboardingPage() {
                         transition={{ delay: i * 0.06 }}
                         className="aspect-square rounded-lg overflow-hidden bg-gray-100"
                       >
-                        <Image
+                        <ArtworkImage
                           src={art.thumbnail}
                           alt={art.title}
                           width={150}

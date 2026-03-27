@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
-import Image from "next/image";
+import ArtworkImage from "@/components/ArtworkImage";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import artworks from "@/data/artworks.json";
@@ -174,7 +174,7 @@ export default function ExplorePage() {
                     className="block group"
                   >
                     <div className="relative aspect-square rounded-xl overflow-hidden bg-gray-100">
-                      <Image
+                      <ArtworkImage
                         src={artwork.thumbnail}
                         alt={artwork.title}
                         width={200}

@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import Image from "next/image";
+import ArtworkImage from "@/components/ArtworkImage";
 import Link from "next/link";
 import { useStore } from "@/store/useStore";
 import artworks from "@/data/artworks.json";
@@ -75,7 +75,7 @@ export default function RecommendationsPage() {
               >
                 <Link href={`/artwork/${artwork.id}`} className="block group">
                   <div className="aspect-[4/3] rounded-xl overflow-hidden bg-gray-100 mb-3">
-                    <Image
+                    <ArtworkImage
                       src={artwork.thumbnail}
                       alt={artwork.title}
                       width={400}
