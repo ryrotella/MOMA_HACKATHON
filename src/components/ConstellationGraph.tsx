@@ -41,6 +41,7 @@ export default function ConstellationGraph({ nodes, edges, selectedNodeId, onSel
   const [smoothedTransform, setSmoothedTransform] = useState<Transform>({ x: 0, y: 0, k: 1 });
   const [draggingId, setDraggingId] = useState<string | null>(null);
   const didDragRef = useRef(false);
+  const dragStartRef = useRef<{ x: number; y: number } | null>(null);
   const dragViewRef = useRef<{ startX: number; startY: number; originX: number; originY: number } | null>(null);
   const [isAnimating, setIsAnimating] = useState(true);
 
@@ -162,11 +163,18 @@ export default function ConstellationGraph({ nodes, edges, selectedNodeId, onSel
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const isDraggingRef = useRef(false);
+  useEffect(() => { isDraggingRef.current = draggingId !== null || dragViewRef.current !== null; });
+
   useEffect(() => {
     const element = svgRef.current;
     if (!element) return;
     const preventScroll = (event: TouchEvent) => {
-      event.preventDefault();
+      // Always prevent during active node drag or pan; prevent single-touch otherwise
+      // to avoid accidental page bounce while interacting with the graph
+      if (isDraggingRef.current || event.touches.length === 1) {
+        event.preventDefault();
+      }
     };
     element.addEventListener("touchmove", preventScroll, { passive: false });
     return () => {
@@ -299,29 +307,37 @@ export default function ConstellationGraph({ nodes, edges, selectedNodeId, onSel
                 }}
                 onPointerDown={(event) => {
                   event.stopPropagation();
+                  svgRef.current?.setPointerCapture(event.pointerId);
                   didDragRef.current = false;
+                  dragStartRef.current = { x: event.clientX, y: event.clientY };
                   setDraggingId(node.id);
                   setNodeFixedPosition(node.id, pos.x, pos.y);
                 }}
                 onPointerMove={(event) => {
                   if (draggingId !== node.id) return;
                   event.stopPropagation();
-                  didDragRef.current = true;
+                  if (!didDragRef.current && dragStartRef.current) {
+                    const dx = event.clientX - dragStartRef.current.x;
+                    const dy = event.clientY - dragStartRef.current.y;
+                    if (dx * dx + dy * dy < 25) return; // 5px threshold
+                    didDragRef.current = true;
+                  }
                   const svg = svgRef.current;
                   if (!svg) return;
                   const ctm = svg.getScreenCTM();
                   if (!ctm) return;
-                  const point = svg.createSVGPoint();
-                  point.x = event.clientX;
-                  point.y = event.clientY;
-                  const transformed = point.matrixTransform(ctm.inverse());
+                  const transformed = new DOMPoint(event.clientX, event.clientY).matrixTransform(ctm.inverse());
                   const translatedX = (transformed.x - smoothedTransform.x) / smoothedTransform.k;
                   const translatedY = (transformed.y - smoothedTransform.y) / smoothedTransform.k;
                   setNodeFixedPosition(node.id, translatedX, translatedY);
                 }}
                 onPointerUp={(event) => {
                   event.stopPropagation();
+                  if (svgRef.current?.hasPointerCapture(event.pointerId)) {
+                    svgRef.current.releasePointerCapture(event.pointerId);
+                  }
                   releaseNodeFixedPosition(node.id);
+                  dragStartRef.current = null;
                   setDraggingId(null);
                 }}
               >
