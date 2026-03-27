@@ -1,0 +1,1129 @@
+[
+  {
+    "id": "starry-night",
+    "title": "The Starry Night",
+    "artist": "Vincent van Gogh",
+    "year": "1889",
+    "medium": "Oil on canvas",
+    "dimensions": "29 x 36 1/4\" (73.7 x 92.1 cm)",
+    "gallery": "501",
+    "floor": 5,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ2NzUxNyJdLFsicCIsImNvbnZlcnQiLCItcXVhbGl0eSA5MCAtcmVzaXplIDUxMng1MTJcdTAwM2UiXV0.jpg",
+    "description": "Van Gogh's swirling night sky over a village, painted during his stay at the asylum in Saint-R\u00e9my-de-Provence.",
+    "tags": [
+      "post-impressionism",
+      "landscape",
+      "iconic"
+    ],
+    "popularity": 100
+  },
+  {
+    "id": "les-demoiselles",
+    "title": "Les Demoiselles d'Avignon",
+    "artist": "Pablo Picasso",
+    "year": "1907",
+    "medium": "Oil on canvas",
+    "dimensions": "8' x 7' 8\" (243.9 x 233.7 cm)",
+    "gallery": "502",
+    "floor": 5,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ2NzUxOCJdLFsicCIsImNvbnZlcnQiLCItcXVhbGl0eSA5MCAtcmVzaXplIDUxMng1MTJcdTAwM2UiXV0.jpg",
+    "description": "Picasso's revolutionary proto-Cubist painting of five nude women, a pivotal work in the development of modern art.",
+    "tags": [
+      "cubism",
+      "figurative",
+      "iconic"
+    ],
+    "popularity": 95
+  },
+  {
+    "id": "persistence-of-memory",
+    "title": "The Persistence of Memory",
+    "artist": "Salvador Dal\u00ed",
+    "year": "1931",
+    "medium": "Oil on canvas",
+    "dimensions": "9 1/2 x 13\" (24.1 x 33 cm)",
+    "gallery": "512",
+    "floor": 5,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ2NzUxOSJdLFsicCIsImNvbnZlcnQiLCItcXVhbGl0eSA5MCAtcmVzaXplIDUxMng1MTJcdTAwM2UiXV0.jpg",
+    "description": "Dal\u00ed's iconic melting clocks in a dreamlike landscape, one of the most recognizable works of Surrealism.",
+    "tags": [
+      "surrealism",
+      "iconic",
+      "landscape"
+    ],
+    "popularity": 98
+  },
+  {
+    "id": "campbell-soup",
+    "title": "Campbell's Soup Cans",
+    "artist": "Andy Warhol",
+    "year": "1962",
+    "medium": "Synthetic polymer paint on thirty-two canvases",
+    "dimensions": "Each canvas 20 x 16\" (50.8 x 40.6 cm)",
+    "gallery": "412",
+    "floor": 4,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjMxODI0MiJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=da9ed7773f4c0ff4",
+    "description": "Warhol's thirty-two canvases of Campbell's Soup varieties, a defining work of Pop Art.",
+    "tags": [
+      "pop-art",
+      "iconic",
+      "still-life"
+    ],
+    "popularity": 92
+  },
+  {
+    "id": "water-lilies",
+    "title": "Water Lilies",
+    "artist": "Claude Monet",
+    "year": "1914-26",
+    "medium": "Oil on canvas",
+    "dimensions": "6' 6 3/4\" x 19' 7 1/2\" (200 x 598 cm)",
+    "gallery": "515",
+    "floor": 5,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjI0Njc4NCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=b231dd89da1cde25",
+    "description": "Monet's monumental triptych of his water garden at Giverny, an immersive late Impressionist masterpiece.",
+    "tags": [
+      "impressionism",
+      "landscape",
+      "iconic"
+    ],
+    "popularity": 90
+  },
+  {
+    "id": "dance-i",
+    "title": "Dance (I)",
+    "artist": "Henri Matisse",
+    "year": "1909",
+    "medium": "Oil on canvas",
+    "dimensions": "8' 6 1/2\" x 12' 9 1/2\" (259.7 x 390.1 cm)",
+    "gallery": "506",
+    "floor": 5,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjYxOTkzOCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=5d28d9a148ff6582",
+    "description": "Matisse's joyful circle of dancers in bold color, a landmark of Fauvism.",
+    "tags": [
+      "fauvism",
+      "figurative",
+      "iconic"
+    ],
+    "popularity": 85
+  },
+  {
+    "id": "sleeping-gypsy",
+    "title": "The Sleeping Gypsy",
+    "artist": "Henri Rousseau",
+    "year": "1897",
+    "medium": "Oil on canvas",
+    "dimensions": "51\" x 6' 7\" (129.5 x 200.7 cm)",
+    "gallery": "504",
+    "floor": 5,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ2NzUyMyJdLFsicCIsImNvbnZlcnQiLCItcXVhbGl0eSA5MCAtcmVzaXplIDUxMng1MTJcdTAwM2UiXV0.jpg",
+    "description": "Rousseau's dreamlike scene of a sleeping woman watched by a lion under a full moon.",
+    "tags": [
+      "naive-art",
+      "figurative",
+      "landscape"
+    ],
+    "popularity": 78
+  },
+  {
+    "id": "girl-mandolin",
+    "title": "Girl with a Mandolin (Fanny Tellier)",
+    "artist": "Pablo Picasso",
+    "year": "1910",
+    "medium": "Oil on canvas",
+    "dimensions": "39 1/2 x 29\" (100.3 x 73.6 cm)",
+    "gallery": "503",
+    "floor": 5,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjE1MTUzMyJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=c51732b468107af8",
+    "description": "A key early Cubist portrait by Picasso, fragmenting form into geometric planes.",
+    "tags": [
+      "cubism",
+      "figurative",
+      "portrait"
+    ],
+    "popularity": 65
+  },
+  {
+    "id": "broadway-boogie",
+    "title": "Broadway Boogie Woogie",
+    "artist": "Piet Mondrian",
+    "year": "1942-43",
+    "medium": "Oil on canvas",
+    "dimensions": "50 x 50\" (127 x 127 cm)",
+    "gallery": "1 North",
+    "floor": 5,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjYyMTQwMiJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=a1296a6f3718792e",
+    "description": "Mondrian's vibrant grid inspired by New York City's streets and jazz rhythms.",
+    "tags": [
+      "abstract",
+      "geometric",
+      "iconic"
+    ],
+    "popularity": 75
+  },
+  {
+    "id": "guernica-study",
+    "title": "Guitar",
+    "artist": "Pablo Picasso",
+    "year": "1913",
+    "medium": "Paperboard, paper, thread, string, and wire",
+    "dimensions": "26 1/8 x 10 x 5 3/4\" (66.4 x 25.4 x 14.6 cm)",
+    "gallery": "507",
+    "floor": 5,
+    "department": "Painting & Sculpture",
+    "classification": "Sculpture",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ2NzUyNiJdLFsicCIsImNvbnZlcnQiLCItcXVhbGl0eSA5MCAtcmVzaXplIDUxMng1MTJcdTAwM2UiXV0.jpg",
+    "description": "Picasso's revolutionary constructed sculpture that redefined three-dimensional art.",
+    "tags": [
+      "cubism",
+      "sculpture",
+      "innovative"
+    ],
+    "popularity": 60
+  },
+  {
+    "id": "christina-world",
+    "title": "Christina's World",
+    "artist": "Andrew Wyeth",
+    "year": "1948",
+    "medium": "Tempera on panel",
+    "dimensions": "32 1/4 x 47 3/4\" (81.9 x 121.3 cm)",
+    "gallery": "521",
+    "floor": 4,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjE2NTQ1NyJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=92a6f9ac461b51aa",
+    "description": "Wyeth's iconic image of a woman crawling through a field toward a distant farmhouse.",
+    "tags": [
+      "realism",
+      "figurative",
+      "iconic",
+      "american"
+    ],
+    "popularity": 88
+  },
+  {
+    "id": "gold-marilyn",
+    "title": "Gold Marilyn Monroe",
+    "artist": "Andy Warhol",
+    "year": "1962",
+    "medium": "Silkscreen ink on synthetic polymer paint on canvas",
+    "dimensions": "6' 11 1/4\" x 57\" (211.4 x 144.7 cm)",
+    "gallery": "420",
+    "floor": 4,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ3NzE5NiJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=6b8523b4567bdcf7",
+    "description": "Warhol's gold-backgrounded Marilyn, transforming celebrity into secular iconography.",
+    "tags": [
+      "pop-art",
+      "portrait",
+      "iconic"
+    ],
+    "popularity": 82
+  },
+  {
+    "id": "flag",
+    "title": "Flag",
+    "artist": "Jasper Johns",
+    "year": "1954-55",
+    "medium": "Encaustic, oil, and collage on fabric mounted on plywood",
+    "dimensions": "42 1/4 x 60 5/8\" (107.3 x 153.8 cm)",
+    "gallery": "410",
+    "floor": 4,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ3NTQwNyJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=83492f7a0c0c5197",
+    "description": "Johns' iconic American flag, blurring the line between object and representation.",
+    "tags": [
+      "neo-dada",
+      "iconic",
+      "american"
+    ],
+    "popularity": 80
+  },
+  {
+    "id": "drowning-girl",
+    "title": "Drowning Girl",
+    "artist": "Roy Lichtenstein",
+    "year": "1963",
+    "medium": "Oil and synthetic polymer paint on canvas",
+    "dimensions": "67 5/8 x 66 3/4\" (171.6 x 169.5 cm)",
+    "gallery": "411",
+    "floor": 4,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjIzNzM1NSJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=53d53e18107d6685",
+    "description": "Lichtenstein's comic-strip-inspired painting of melodrama, a Pop Art landmark.",
+    "tags": [
+      "pop-art",
+      "figurative",
+      "iconic"
+    ],
+    "popularity": 77
+  },
+  {
+    "id": "one-number-31",
+    "title": "One: Number 31, 1950",
+    "artist": "Jackson Pollock",
+    "year": "1950",
+    "medium": "Oil and enamel paint on canvas",
+    "dimensions": "8' 10\" x 17' 5 5/8\" (269.5 x 530.8 cm)",
+    "gallery": "403",
+    "floor": 4,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ2NzUzMSJdLFsicCIsImNvbnZlcnQiLCItcXVhbGl0eSA5MCAtcmVzaXplIDUxMng1MTJcdTAwM2UiXV0.jpg",
+    "description": "Pollock's monumental drip painting, a defining work of Abstract Expressionism.",
+    "tags": [
+      "abstract-expressionism",
+      "abstract",
+      "iconic"
+    ],
+    "popularity": 83
+  },
+  {
+    "id": "woman-i",
+    "title": "Woman, I",
+    "artist": "Willem de Kooning",
+    "year": "1950-52",
+    "medium": "Oil on canvas",
+    "dimensions": "6' 3 7/8\" x 58\" (192.7 x 147.3 cm)",
+    "gallery": "404",
+    "floor": 4,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjE5MzI0OCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=dde8d89e67e1f1f5",
+    "description": "De Kooning's fierce, gestural depiction of the female figure.",
+    "tags": [
+      "abstract-expressionism",
+      "figurative"
+    ],
+    "popularity": 70
+  },
+  {
+    "id": "boy-with-tire",
+    "title": "Retrospective Bust of a Woman",
+    "artist": "Salvador Dal\u00ed",
+    "year": "1933 (some elements 1970)",
+    "medium": "Painted porcelain, bread, corn, feathers, paint on board, printed paper, beads, ink stand, sand, and two pens",
+    "dimensions": "29 1/4 x 27 x 12 1/4\" (74.3 x 68.6 x 31.1 cm)",
+    "gallery": "513",
+    "floor": 5,
+    "department": "Painting & Sculpture",
+    "classification": "Sculpture",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ2NzUzMyJdLFsicCIsImNvbnZlcnQiLCItcXVhbGl0eSA5MCAtcmVzaXplIDUxMng1MTJcdTAwM2UiXV0.jpg",
+    "description": "Dal\u00ed's surrealist assemblage combining a porcelain bust with everyday objects.",
+    "tags": [
+      "surrealism",
+      "sculpture"
+    ],
+    "popularity": 50
+  },
+  {
+    "id": "birds-in-space",
+    "title": "Bird in Space",
+    "artist": "Constantin Brancusi",
+    "year": "1928",
+    "medium": "Bronze",
+    "dimensions": "54 x 8 1/2 x 6 1/2\" (137.2 x 21.6 x 16.5 cm)",
+    "gallery": "508",
+    "floor": 5,
+    "department": "Painting & Sculpture",
+    "classification": "Sculpture",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjE0OTgzMSJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=9bad0a7255a2fbf1",
+    "description": "Brancusi's sleek, soaring bronze, distilling the essence of flight into pure form.",
+    "tags": [
+      "sculpture",
+      "abstract",
+      "modernism"
+    ],
+    "popularity": 68
+  },
+  {
+    "id": "hope-ii",
+    "title": "Hope, II",
+    "artist": "Gustav Klimt",
+    "year": "1907-08",
+    "medium": "Oil, gold, and platinum on canvas",
+    "dimensions": "43 5/8 x 43 5/8\" (110.5 x 110.5 cm)",
+    "gallery": "501",
+    "floor": 5,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjI0MTYxMyJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=9f0bdd82b2f2dc1a",
+    "description": "Klimt's gold-infused depiction of pregnancy, blending symbolism with ornamental splendor.",
+    "tags": [
+      "art-nouveau",
+      "figurative",
+      "portrait"
+    ],
+    "popularity": 72
+  },
+  {
+    "id": "abaporu",
+    "title": "Abaporu",
+    "artist": "Tarsila do Amaral",
+    "year": "1928",
+    "medium": "Oil on canvas",
+    "dimensions": "33 7/16 x 28 3/4\" (85 x 73 cm)",
+    "gallery": "508",
+    "floor": 5,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ2NzUzNiJdLFsicCIsImNvbnZlcnQiLCItcXVhbGl0eSA5MCAtcmVzaXplIDUxMng1MTJcdTAwM2UiXV0.jpg",
+    "description": "Do Amaral's monumental figure inspired the Brazilian Anthropophagic movement.",
+    "tags": [
+      "modernism",
+      "figurative",
+      "latin-american"
+    ],
+    "popularity": 55
+  },
+  {
+    "id": "lovers-ii",
+    "title": "The Lovers II",
+    "artist": "Ren\u00e9 Magritte",
+    "year": "1928",
+    "medium": "Oil on canvas",
+    "dimensions": "21 3/16 x 28 7/8\" (54 x 73.4 cm)",
+    "gallery": "514",
+    "floor": 5,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ2NzUzNyJdLFsicCIsImNvbnZlcnQiLCItcXVhbGl0eSA5MCAtcmVzaXplIDUxMng1MTJcdTAwM2UiXV0.jpg",
+    "description": "Magritte's veiled kissing figures, exploring themes of concealment and desire.",
+    "tags": [
+      "surrealism",
+      "figurative",
+      "portrait"
+    ],
+    "popularity": 74
+  },
+  {
+    "id": "black-square",
+    "title": "Suprematist Composition: White on White",
+    "artist": "Kazimir Malevich",
+    "year": "1918",
+    "medium": "Oil on canvas",
+    "dimensions": "31 1/4 x 31 1/4\" (79.4 x 79.4 cm)",
+    "gallery": "509",
+    "floor": 5,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ2NzUzOCJdLFsicCIsImNvbnZlcnQiLCItcXVhbGl0eSA5MCAtcmVzaXplIDUxMng1MTJcdTAwM2UiXV0.jpg",
+    "description": "Malevich's radical reduction of painting to pure geometric abstraction.",
+    "tags": [
+      "abstract",
+      "geometric",
+      "suprematism"
+    ],
+    "popularity": 58
+  },
+  {
+    "id": "man-guitar",
+    "title": "Man with a Guitar",
+    "artist": "Georges Braque",
+    "year": "1911-12",
+    "medium": "Oil on canvas",
+    "dimensions": "45 3/4 x 31 7/8\" (116.2 x 80.9 cm)",
+    "gallery": "503",
+    "floor": 5,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjQzODQ0NiJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=b5b124486e4eef8c",
+    "description": "Braque's Analytical Cubist masterpiece, dissolving figure and instrument into faceted planes.",
+    "tags": [
+      "cubism",
+      "figurative"
+    ],
+    "popularity": 52
+  },
+  {
+    "id": "meret-oppenheim-fur",
+    "title": "Object",
+    "artist": "Meret Oppenheim",
+    "year": "1936",
+    "medium": "Fur-covered cup, saucer, and spoon",
+    "dimensions": "Overall 2 7/8\" (7.3 cm) h.",
+    "gallery": "517",
+    "floor": 5,
+    "department": "Painting & Sculpture",
+    "classification": "Sculpture",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjYxNDY5NyJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=6370ccde06b12253",
+    "description": "Oppenheim's fur-covered teacup, the quintessential Surrealist object.",
+    "tags": [
+      "surrealism",
+      "sculpture",
+      "iconic"
+    ],
+    "popularity": 73
+  },
+  {
+    "id": "echo-narcissus",
+    "title": "Echo of a Scream",
+    "artist": "David Alfaro Siqueiros",
+    "year": "1937",
+    "medium": "Enamel on wood",
+    "dimensions": "48 x 36\" (121.9 x 91.4 cm)",
+    "gallery": "510",
+    "floor": 5,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjE1MTQyNCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=93c4378ca57f811c",
+    "description": "Siqueiros' powerful anti-war image of a screaming child amidst destruction.",
+    "tags": [
+      "social-realism",
+      "figurative",
+      "political"
+    ],
+    "popularity": 48
+  },
+  {
+    "id": "great-wave",
+    "title": "Under the Wave off Kanagawa (Kanagawa oki nami ura), also known as The Great Wave",
+    "artist": "Katsushika Hokusai",
+    "year": "c. 1830-32",
+    "medium": "Woodblock print",
+    "dimensions": "10 1/8 x 14 15/16\" (25.7 x 37.9 cm)",
+    "gallery": "519",
+    "floor": 5,
+    "department": "Drawings and Prints",
+    "classification": "Print",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ2NzU0MiJdLFsicCIsImNvbnZlcnQiLCItcXVhbGl0eSA5MCAtcmVzaXplIDUxMng1MTJcdTAwM2UiXV0.jpg",
+    "description": "Hokusai's iconic woodblock print of a towering wave with Mount Fuji in the background.",
+    "tags": [
+      "japanese",
+      "print",
+      "landscape",
+      "iconic"
+    ],
+    "popularity": 86
+  },
+  {
+    "id": "number-1a",
+    "title": "Number 1A, 1948",
+    "artist": "Jackson Pollock",
+    "year": "1948",
+    "medium": "Oil and enamel paint on canvas",
+    "dimensions": "68\" x 8' 8\" (172.7 x 264.2 cm)",
+    "gallery": "403",
+    "floor": 4,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ2NzU0MyJdLFsicCIsImNvbnZlcnQiLCItcXVhbGl0eSA5MCAtcmVzaXplIDUxMng1MTJcdTAwM2UiXV0.jpg",
+    "description": "An earlier Pollock drip painting, dense with energy and movement.",
+    "tags": [
+      "abstract-expressionism",
+      "abstract"
+    ],
+    "popularity": 70
+  },
+  {
+    "id": "rothko-no61",
+    "title": "No. 61 (Rust and Blue)",
+    "artist": "Mark Rothko",
+    "year": "1953",
+    "medium": "Oil on canvas",
+    "dimensions": "9' 7 3/8\" x 7' 8 1/4\" (292.7 x 233.7 cm)",
+    "gallery": "405",
+    "floor": 4,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ2NzU0NCJdLFsicCIsImNvbnZlcnQiLCItcXVhbGl0eSA5MCAtcmVzaXplIDUxMng1MTJcdTAwM2UiXV0.jpg",
+    "description": "Rothko's luminous color field painting, inviting contemplation through layered hues.",
+    "tags": [
+      "abstract-expressionism",
+      "color-field",
+      "abstract"
+    ],
+    "popularity": 75
+  },
+  {
+    "id": "convertible",
+    "title": "Soft Toilet",
+    "artist": "Claes Oldenburg",
+    "year": "1966",
+    "medium": "Vinyl filled with kapok, painted with liquitex, and wood",
+    "dimensions": "57 1/4 x 27 1/2 x 28 1/2\" (145.4 x 69.9 x 72.4 cm)",
+    "gallery": "413",
+    "floor": 4,
+    "department": "Painting & Sculpture",
+    "classification": "Sculpture",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ2NzU0NSJdLFsicCIsImNvbnZlcnQiLCItcXVhbGl0eSA5MCAtcmVzaXplIDUxMng1MTJcdTAwM2UiXV0.jpg",
+    "description": "Oldenburg's sagging vinyl toilet challenges distinctions between high and low culture.",
+    "tags": [
+      "pop-art",
+      "sculpture",
+      "humorous"
+    ],
+    "popularity": 45
+  },
+  {
+    "id": "target-four-faces",
+    "title": "Target with Four Faces",
+    "artist": "Jasper Johns",
+    "year": "1955",
+    "medium": "Assemblage: encaustic on newspaper and cloth over canvas surmounted by four tinted-plaster faces in wood box with hinged front",
+    "dimensions": "26 x 26 x 3\" (66 x 66 x 7.6 cm)",
+    "gallery": "409",
+    "floor": 4,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjI5Njk2NiJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=3c1244adb0a62721",
+    "description": "Johns' target and plaster face assemblage, questioning perception and representation.",
+    "tags": [
+      "neo-dada",
+      "assemblage"
+    ],
+    "popularity": 62
+  },
+  {
+    "id": "i-and-village",
+    "title": "I and the Village",
+    "artist": "Marc Chagall",
+    "year": "1911",
+    "medium": "Oil on canvas",
+    "dimensions": "6' 3 5/8\" x 59 5/8\" (192.1 x 151.4 cm)",
+    "gallery": "503",
+    "floor": 5,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjYxOTcxOCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=466fec84f22f73bd",
+    "description": "Chagall's dreamlike vision of his childhood village, blending memory with fantasy.",
+    "tags": [
+      "expressionism",
+      "figurative",
+      "landscape"
+    ],
+    "popularity": 67
+  },
+  {
+    "id": "she-wolf",
+    "title": "The She-Wolf",
+    "artist": "Jackson Pollock",
+    "year": "1943",
+    "medium": "Oil, gouache, and plaster on canvas",
+    "dimensions": "41 7/8 x 67\" (106.4 x 170.2 cm)",
+    "gallery": "402",
+    "floor": 4,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ2NzU0OCJdLFsicCIsImNvbnZlcnQiLCItcXVhbGl0eSA5MCAtcmVzaXplIDUxMng1MTJcdTAwM2UiXV0.jpg",
+    "description": "An early Pollock painting with mythological overtones, bridging figuration and abstraction.",
+    "tags": [
+      "abstract-expressionism",
+      "figurative"
+    ],
+    "popularity": 55
+  },
+  {
+    "id": "houses-estaque",
+    "title": "Houses at l'Estaque",
+    "artist": "Georges Braque",
+    "year": "1908",
+    "medium": "Oil on canvas",
+    "dimensions": "28 3/4 x 23 5/8\" (73 x 60 cm)",
+    "gallery": "505",
+    "floor": 5,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ2NzU0OSJdLFsicCIsImNvbnZlcnQiLCItcXVhbGl0eSA5MCAtcmVzaXplIDUxMng1MTJcdTAwM2UiXV0.jpg",
+    "description": "Braque's geometric landscape that helped spark the Cubist revolution.",
+    "tags": [
+      "cubism",
+      "landscape"
+    ],
+    "popularity": 48
+  },
+  {
+    "id": "self-portrait-cropped-hair",
+    "title": "Self-Portrait with Cropped Hair",
+    "artist": "Frida Kahlo",
+    "year": "1940",
+    "medium": "Oil on canvas",
+    "dimensions": "15 3/4 x 11\" (40 x 27.9 cm)",
+    "gallery": "3 North",
+    "floor": 5,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ5NDA4NSJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=ad6709f30ad309d1",
+    "description": "Kahlo defiantly challenges gender norms, depicted in a man's suit with shorn hair.",
+    "tags": [
+      "surrealism",
+      "portrait",
+      "feminist",
+      "iconic"
+    ],
+    "popularity": 80
+  },
+  {
+    "id": "garden-at-sainte-adresse",
+    "title": "The Japanese Footbridge",
+    "artist": "Claude Monet",
+    "year": "1920-22",
+    "medium": "Oil on canvas",
+    "dimensions": "35 1/4 x 36 1/2\" (89.5 x 92.7 cm)",
+    "gallery": "515",
+    "floor": 5,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ2NzU1MSJdLFsicCIsImNvbnZlcnQiLCItcXVhbGl0eSA5MCAtcmVzaXplIDUxMng1MTJcdTAwM2UiXV0.jpg",
+    "description": "Monet's late, near-abstract view of the Japanese bridge in his Giverny garden.",
+    "tags": [
+      "impressionism",
+      "landscape"
+    ],
+    "popularity": 60
+  },
+  {
+    "id": "vir-heroicus",
+    "title": "Vir Heroicus Sublimis",
+    "artist": "Barnett Newman",
+    "year": "1950-51",
+    "medium": "Oil on canvas",
+    "dimensions": "7' 11 3/8\" x 17' 9 1/4\" (242.2 x 541.7 cm)",
+    "gallery": "402",
+    "floor": 4,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ3ODMxNSJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=56ed36e49ccf50d7",
+    "description": "Newman's massive red field with vertical 'zips,' an icon of Color Field painting.",
+    "tags": [
+      "abstract-expressionism",
+      "color-field",
+      "abstract"
+    ],
+    "popularity": 65
+  },
+  {
+    "id": "dance-after-matisse",
+    "title": "The Red Studio",
+    "artist": "Henri Matisse",
+    "year": "1911",
+    "medium": "Oil on canvas",
+    "dimensions": "71 1/4\" x 7' 2 1/4\" (181 x 219.1 cm)",
+    "gallery": "518",
+    "floor": 5,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ2NzU1MyJdLFsicCIsImNvbnZlcnQiLCItcXVhbGl0eSA5MCAtcmVzaXplIDUxMng1MTJcdTAwM2UiXV0.jpg",
+    "description": "Matisse's all-red interior where furniture and artworks dissolve into color.",
+    "tags": [
+      "fauvism",
+      "interior",
+      "iconic"
+    ],
+    "popularity": 78
+  },
+  {
+    "id": "map-johns",
+    "title": "Map",
+    "artist": "Jasper Johns",
+    "year": "1961",
+    "medium": "Oil on canvas",
+    "dimensions": "6' 6\" x 10' 3 1/8\" (198.2 x 312.7 cm)",
+    "gallery": "408",
+    "floor": 4,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ3NTU1MyJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=e973c1eee861fbde",
+    "description": "Johns' gestural map of the United States, exploring the boundary between sign and symbol.",
+    "tags": [
+      "neo-dada",
+      "abstract",
+      "american"
+    ],
+    "popularity": 58
+  },
+  {
+    "id": "bicycle-wheel",
+    "title": "Bicycle Wheel",
+    "artist": "Marcel Duchamp",
+    "year": "1951 (third version, after lost original of 1913)",
+    "medium": "Metal wheel mounted on painted wood stool",
+    "dimensions": "51\" (129.5 cm) h.",
+    "gallery": "511",
+    "floor": 5,
+    "department": "Painting & Sculpture",
+    "classification": "Sculpture",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjE2NTQ4MyJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=0d70070ba05bfb22",
+    "description": "Duchamp's first 'readymade' \u2014 a bicycle wheel on a stool, questioning the nature of art.",
+    "tags": [
+      "dada",
+      "sculpture",
+      "conceptual",
+      "iconic"
+    ],
+    "popularity": 72
+  },
+  {
+    "id": "sleeping-muse",
+    "title": "The Kiss",
+    "artist": "Constantin Brancusi",
+    "year": "1907-08",
+    "medium": "Limestone",
+    "dimensions": "11 x 10 1/4 x 8 1/2\" (28 x 26 x 21.5 cm)",
+    "gallery": "505",
+    "floor": 5,
+    "department": "Painting & Sculpture",
+    "classification": "Sculpture",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ2NzU1NiJdLFsicCIsImNvbnZlcnQiLCItcXVhbGl0eSA5MCAtcmVzaXplIDUxMng1MTJcdTAwM2UiXV0.jpg",
+    "description": "Brancusi's compact stone carving of two lovers merged in an embrace.",
+    "tags": [
+      "sculpture",
+      "modernism",
+      "figurative"
+    ],
+    "popularity": 64
+  },
+  {
+    "id": "unique-forms",
+    "title": "Unique Forms of Continuity in Space",
+    "artist": "Umberto Boccioni",
+    "year": "1913 (cast 1931)",
+    "medium": "Bronze",
+    "dimensions": "43 7/8 x 34 7/8 x 15 3/4\" (111.2 x 88.5 x 40 cm)",
+    "gallery": "509",
+    "floor": 5,
+    "department": "Painting & Sculpture",
+    "classification": "Sculpture",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ2NTkzNSJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=fe16942808207011",
+    "description": "Boccioni's dynamic striding figure, the masterpiece of Futurist sculpture.",
+    "tags": [
+      "futurism",
+      "sculpture",
+      "iconic"
+    ],
+    "popularity": 70
+  },
+  {
+    "id": "three-musicians",
+    "title": "Three Musicians",
+    "artist": "Pablo Picasso",
+    "year": "1921",
+    "medium": "Oil on canvas",
+    "dimensions": "6' 7\" x 7' 3 3/4\" (200.7 x 222.9 cm)",
+    "gallery": "513",
+    "floor": 5,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjUzNzgyNCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=5592e55349c6f551",
+    "description": "Picasso's monumental Synthetic Cubist painting of three costumed musicians.",
+    "tags": [
+      "cubism",
+      "figurative",
+      "iconic"
+    ],
+    "popularity": 76
+  },
+  {
+    "id": "two-women-at-window",
+    "title": "Girl before a Mirror",
+    "artist": "Pablo Picasso",
+    "year": "1932",
+    "medium": "Oil on canvas",
+    "dimensions": "64 x 51 1/4\" (162.3 x 130.2 cm)",
+    "gallery": "517",
+    "floor": 5,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjIwMzk0MCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=ce18fbf31c41a4f0",
+    "description": "Picasso's colorful exploration of identity, reflection, and the female form.",
+    "tags": [
+      "cubism",
+      "figurative",
+      "portrait"
+    ],
+    "popularity": 73
+  },
+  {
+    "id": "marilyn-diptych",
+    "title": "Double Elvis",
+    "artist": "Andy Warhol",
+    "year": "1963",
+    "medium": "Silkscreen ink on synthetic polymer paint on canvas",
+    "dimensions": "6' 11\" x 53\" (210.8 x 134.6 cm)",
+    "gallery": "412",
+    "floor": 4,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ2NzU2MCJdLFsicCIsImNvbnZlcnQiLCItcXVhbGl0eSA5MCAtcmVzaXplIDUxMng1MTJcdTAwM2UiXV0.jpg",
+    "description": "Warhol's doubled image of Elvis Presley as a gunslinging cowboy.",
+    "tags": [
+      "pop-art",
+      "portrait",
+      "iconic"
+    ],
+    "popularity": 68
+  },
+  {
+    "id": "forms-in-echelon",
+    "title": "Painting (Formerly Machine)",
+    "artist": "Francis Picabia",
+    "year": "1916-18",
+    "medium": "Oil and metallic paint on cardboard",
+    "dimensions": "35 3/4 x 28 3/4\" (90.8 x 73 cm)",
+    "gallery": "511",
+    "floor": 5,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ2NzU2MSJdLFsicCIsImNvbnZlcnQiLCItcXVhbGl0eSA5MCAtcmVzaXplIDUxMng1MTJcdTAwM2UiXV0.jpg",
+    "description": "Picabia's machine-age aesthetic, blending Dada with mechanical imagery.",
+    "tags": [
+      "dada",
+      "abstract"
+    ],
+    "popularity": 38
+  },
+  {
+    "id": "no-woman-no-cry",
+    "title": "The Song of Love",
+    "artist": "Giorgio de Chirico",
+    "year": "1914",
+    "medium": "Oil on canvas",
+    "dimensions": "28 3/4 x 23 3/8\" (73 x 59.1 cm)",
+    "gallery": "513",
+    "floor": 5,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ2NzU2MiJdLFsicCIsImNvbnZlcnQiLCItcXVhbGl0eSA5MCAtcmVzaXplIDUxMng1MTJcdTAwM2UiXV0.jpg",
+    "description": "De Chirico's proto-Surrealist juxtaposition of a classical head, rubber glove, and green ball.",
+    "tags": [
+      "surrealism",
+      "metaphysical"
+    ],
+    "popularity": 52
+  },
+  {
+    "id": "blue-nude-ii",
+    "title": "The Swimming Pool",
+    "artist": "Henri Matisse",
+    "year": "1952",
+    "medium": "Gouache on paper, cut and pasted, on painted paper",
+    "dimensions": "7' 6 7/8\" x 54' 2\" (230.1 x 1651.3 cm)",
+    "gallery": "520",
+    "floor": 5,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ2NzU2MyJdLFsicCIsImNvbnZlcnQiLCItcXVhbGl0eSA5MCAtcmVzaXplIDUxMng1MTJcdTAwM2UiXV0.jpg",
+    "description": "Matisse's monumental late cut-out installation that wraps around the viewer.",
+    "tags": [
+      "cut-outs",
+      "abstract",
+      "iconic"
+    ],
+    "popularity": 72
+  },
+  {
+    "id": "untitled-judd",
+    "title": "Untitled (Stack)",
+    "artist": "Donald Judd",
+    "year": "1967",
+    "medium": "Lacquer on galvanized iron",
+    "dimensions": "Each 9 x 40 x 31\" (22.8 x 101.6 x 78.7 cm)",
+    "gallery": "415",
+    "floor": 4,
+    "department": "Painting & Sculpture",
+    "classification": "Sculpture",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ2NzU2NCJdLFsicCIsImNvbnZlcnQiLCItcXVhbGl0eSA5MCAtcmVzaXplIDUxMng1MTJcdTAwM2UiXV0.jpg",
+    "description": "Judd's stacked metal boxes, a defining work of Minimalism.",
+    "tags": [
+      "minimalism",
+      "sculpture"
+    ],
+    "popularity": 55
+  },
+  {
+    "id": "empires-lights",
+    "title": "The Empire of Light, II",
+    "artist": "Ren\u00e9 Magritte",
+    "year": "1950",
+    "medium": "Oil on canvas",
+    "dimensions": "31 1/8 x 23 3/4\" (79.3 x 60.3 cm)",
+    "gallery": "514",
+    "floor": 5,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ2NzU2NSJdLFsicCIsImNvbnZlcnQiLCItcXVhbGl0eSA5MCAtcmVzaXplIDUxMng1MTJcdTAwM2UiXV0.jpg",
+    "description": "Magritte's paradoxical scene where daylight sky meets a nighttime street.",
+    "tags": [
+      "surrealism",
+      "landscape"
+    ],
+    "popularity": 68
+  },
+  {
+    "id": "retrospection-2s",
+    "title": "The Meninas (after Vel\u00e1zquez)",
+    "artist": "Pablo Picasso",
+    "year": "1957",
+    "medium": "Oil on canvas",
+    "dimensions": "76 3/4 x 102 3/8\" (194.9 x 260 cm)",
+    "gallery": "502",
+    "floor": 5,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ2NzU2NiJdLFsicCIsImNvbnZlcnQiLCItcXVhbGl0eSA5MCAtcmVzaXplIDUxMng1MTJcdTAwM2UiXV0.jpg",
+    "description": "Picasso's monochromatic reinterpretation of Vel\u00e1zquez's masterpiece.",
+    "tags": [
+      "cubism",
+      "figurative"
+    ],
+    "popularity": 50
+  },
+  {
+    "id": "f-111",
+    "title": "F-111",
+    "artist": "James Rosenquist",
+    "year": "1964-65",
+    "medium": "Oil on canvas with aluminum",
+    "dimensions": "10' x 86' (304.8 x 2621.3 cm)",
+    "gallery": "419",
+    "floor": 4,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjU4OTE1OCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=de59d9999ee96b2a",
+    "description": "Rosenquist's massive room-wrapping painting juxtaposing a fighter jet with consumer imagery.",
+    "tags": [
+      "pop-art",
+      "political",
+      "iconic"
+    ],
+    "popularity": 60
+  },
+  {
+    "id": "born-i",
+    "title": "The Birth of the World",
+    "artist": "Joan Mir\u00f3",
+    "year": "1925",
+    "medium": "Oil on canvas",
+    "dimensions": "8' 2 3/4\" x 6' 6 3/4\" (250.8 x 200 cm)",
+    "gallery": "522",
+    "floor": 5,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ2NzU2OCJdLFsicCIsImNvbnZlcnQiLCItcXVhbGl0eSA5MCAtcmVzaXplIDUxMng1MTJcdTAwM2UiXV0.jpg",
+    "description": "Mir\u00f3's cosmic abstract painting, a key work blending Surrealism with biomorphic abstraction.",
+    "tags": [
+      "surrealism",
+      "abstract",
+      "biomorphic"
+    ],
+    "popularity": 58
+  },
+  {
+    "id": "self-portrait-beret",
+    "title": "Self-Portrait Going to Work",
+    "artist": "Vincent van Gogh",
+    "year": "1889",
+    "medium": "Oil on canvas",
+    "dimensions": "25 3/4 x 21 1/2\" (65.1 x 54.6 cm)",
+    "gallery": "501",
+    "floor": 5,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ2NzU2OSJdLFsicCIsImNvbnZlcnQiLCItcXVhbGl0eSA5MCAtcmVzaXplIDUxMng1MTJcdTAwM2UiXV0.jpg",
+    "description": "Van Gogh's intense self-portrait with a palette, painted at the asylum in Saint-R\u00e9my.",
+    "tags": [
+      "post-impressionism",
+      "portrait"
+    ],
+    "popularity": 72
+  },
+  {
+    "id": "whaam",
+    "title": "Girl with Ball",
+    "artist": "Roy Lichtenstein",
+    "year": "1961",
+    "medium": "Oil on canvas",
+    "dimensions": "60 1/4 x 36 1/4\" (153 x 92.1 cm)",
+    "gallery": "411",
+    "floor": 4,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ2NzU3MCJdLFsicCIsImNvbnZlcnQiLCItcXVhbGl0eSA5MCAtcmVzaXplIDUxMng1MTJcdTAwM2UiXV0.jpg",
+    "description": "Lichtenstein's early Pop Art transformation of a newspaper ad into fine art.",
+    "tags": [
+      "pop-art",
+      "figurative"
+    ],
+    "popularity": 55
+  },
+  {
+    "id": "steel-magenta",
+    "title": "Gray Center",
+    "artist": "Jasper Johns",
+    "year": "2002",
+    "medium": "Encaustic on canvas",
+    "dimensions": "78 x 118\" (198.1 x 299.7 cm)",
+    "gallery": "209",
+    "floor": 2,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ2NzU3MSJdLFsicCIsImNvbnZlcnQiLCItcXVhbGl0eSA5MCAtcmVzaXplIDUxMng1MTJcdTAwM2UiXV0.jpg",
+    "description": "Johns' late encaustic work, layering familiar motifs in an atmospheric gray field.",
+    "tags": [
+      "neo-dada",
+      "abstract"
+    ],
+    "popularity": 40
+  },
+  {
+    "id": "wall-drawing",
+    "title": "Wall Drawing #260",
+    "artist": "Sol LeWitt",
+    "year": "1975",
+    "medium": "Chalk on painted wall",
+    "dimensions": "Dimensions variable",
+    "gallery": "414",
+    "floor": 4,
+    "department": "Drawings and Prints",
+    "classification": "Drawing",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ2NzU3MiJdLFsicCIsImNvbnZlcnQiLCItcXVhbGl0eSA5MCAtcmVzaXplIDUxMng1MTJcdTAwM2UiXV0.jpg",
+    "description": "LeWitt's instruction-based wall drawing, a cornerstone of Conceptual art.",
+    "tags": [
+      "conceptual",
+      "minimalism",
+      "drawing"
+    ],
+    "popularity": 45
+  },
+  {
+    "id": "untitled-twombly",
+    "title": "Leda and the Swan",
+    "artist": "Cy Twombly",
+    "year": "1962",
+    "medium": "Oil, pencil, and crayon on canvas",
+    "dimensions": "6' 3\" x 6' 6 3/4\" (190.5 x 200 cm)",
+    "gallery": "406A",
+    "floor": 4,
+    "department": "Painting & Sculpture",
+    "classification": "Painting",
+    "thumbnail": "https://www.moma.org/media/W1siZiIsIjQ2NzU3MyJdLFsicCIsImNvbnZlcnQiLCItcXVhbGl0eSA5MCAtcmVzaXplIDUxMng1MTJcdTAwM2UiXV0.jpg",
+    "description": "Twombly's gestural, mythological painting merging graffiti-like marks with classical themes.",
+    "tags": [
+      "abstract-expressionism",
+      "gestural"
+    ],
+    "popularity": 50
+  }
+]
