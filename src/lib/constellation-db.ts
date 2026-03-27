@@ -101,6 +101,8 @@ async function ensurePreparedStatements() {
 }
 
 function mapRow(row: DbRow): ArchiveArtworkCandidate {
+  const fullImageUrl = row.ImageURL || null;
+  const thumbnailUrl = fullImageUrl;
   return {
     objectId: row.ObjectID,
     title: row.Title || "",
@@ -109,7 +111,8 @@ function mapRow(row: DbRow): ArchiveArtworkCandidate {
     department: row.Department || "",
     classification: row.Classification || "",
     medium: row.Medium || "",
-    imageUrl: row.ImageURL,
+    thumbnailUrl,
+    fullImageUrl,
     momaUrl: row.URL,
     onViewText: row.OnView,
   };

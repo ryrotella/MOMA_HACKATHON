@@ -49,8 +49,8 @@ export default function ConstellationDetailPanel({ selectedNode, onClose }: Prop
         }}
         transition={reduceMotion ? { duration: 0 } : { type: "spring", damping: 30, stiffness: 320 }}
       >
-        <div className="p-4 pb-8">
-          <div className="mb-3 flex items-start justify-between gap-2">
+        <div className="pb-8">
+          <div className="mb-3 flex items-start justify-between gap-2 px-4 pt-4">
             <h2 className="text-base font-black leading-tight">{selectedNode.label}</h2>
             <button
               onClick={onClose}
@@ -64,31 +64,29 @@ export default function ConstellationDetailPanel({ selectedNode, onClose }: Prop
             </button>
           </div>
 
-          <div className="mb-4 flex gap-3">
-            <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-xl bg-gray-100">
-              {selectedNode.imageUrl ? (
-                // eslint-disable-next-line @next/next/no-img-element
+          {(selectedNode.fullImageUrl || selectedNode.thumbnailUrl) && (
+            <div className="mb-4">
+              <div className="h-56 w-full overflow-hidden bg-gray-100">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={selectedNode.imageUrl}
+                  src={selectedNode.fullImageUrl || selectedNode.thumbnailUrl}
                   alt={selectedNode.label}
                   className="h-full w-full object-cover"
                 />
-              ) : (
-                <div className="constellation-placeholder h-full w-full">No image</div>
-              )}
+              </div>
             </div>
+          )}
 
-            <div className="min-w-0 flex-1 space-y-1.5">
-              <p className="text-sm font-semibold text-gray-800">{selectedNode.artist || "Unknown artist"}</p>
-              <p className="text-xs text-gray-500">{selectedNode.date || "Date unavailable"}</p>
-              {selectedNode.classification && (
-                <p className="text-xs text-gray-600">{selectedNode.classification}</p>
-              )}
-              {selectedNode.department && <p className="text-xs text-gray-500">{selectedNode.department}</p>}
-            </div>
+          <div className="space-y-1.5 px-4">
+            <p className="text-base font-semibold text-gray-800">{selectedNode.artist || "Unknown artist"}</p>
+            <p className="text-sm text-gray-500">{selectedNode.date || "Date unavailable"}</p>
+            {selectedNode.classification && (
+              <p className="text-sm text-gray-600">{selectedNode.classification}</p>
+            )}
+            {selectedNode.department && <p className="text-sm text-gray-500">{selectedNode.department}</p>}
           </div>
 
-          <div className="mb-4 flex flex-wrap gap-2">
+          <div className="mb-4 mt-4 flex flex-wrap gap-2 px-4">
             <Chip label={selectedNode.onView ? "On view" : "Archive"} />
             {selectedNode.reasons?.map((reason) => (
               <Chip key={reason} label={humanizeReason(reason)} />
@@ -96,7 +94,7 @@ export default function ConstellationDetailPanel({ selectedNode, onClose }: Prop
           </div>
 
           {selectedNode.relatedToLabel && (
-            <div className="mb-4 rounded-xl border border-gray-200 bg-gray-50 p-3 text-xs text-gray-700">
+            <div className="mx-4 mb-4 rounded-xl border border-gray-200 bg-gray-50 p-3 text-xs text-gray-700">
               <p className="mt-1">
                 <span className="font-semibold">{selectedNode.label}</span>
                 {" is "}
@@ -105,7 +103,7 @@ export default function ConstellationDetailPanel({ selectedNode, onClose }: Prop
             </div>
           )}
 
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 px-4">
             {isCurated && (
               <button
                 onClick={() => toggleBookmark(bookmarkId)}

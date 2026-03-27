@@ -4,10 +4,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const tabs = [
-  { href: "/explore", label: "Home", icon: HomeIcon },
-  { href: "/visits", label: "Visits", icon: VisitsIcon },
-  { href: "/constellation", label: "Constellation", icon: ConstellationIcon },
-  { href: "/passport", label: "Passport", icon: StampIcon },
+  { href: "/", label: "Home", icon: HomeIcon },
+  { href: "/map", label: "Map", icon: MapIcon },
+  { href: "/my-collection", label: "My Collection", icon: ConstellationIcon, aliases: ["/constellation"] },
   { href: "/wrapped", label: "Wrapped", icon: SparklesIcon },
 ];
 
@@ -21,7 +20,7 @@ export default function BottomNav() {
           const isActive =
             tab.href === "/"
               ? pathname === "/"
-              : pathname.startsWith(tab.href);
+              : pathname.startsWith(tab.href) || Boolean(tab.aliases?.some((alias) => pathname.startsWith(alias)));
           return (
             <Link
               key={tab.href}

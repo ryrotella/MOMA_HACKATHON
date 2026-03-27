@@ -26,7 +26,8 @@ export interface ArchiveArtworkCandidate {
   department: string;
   classification: string;
   medium: string;
-  imageUrl?: string | null;
+  thumbnailUrl?: string | null;
+  fullImageUrl?: string | null;
   momaUrl?: string | null;
   onViewText?: string | null;
 }
@@ -36,7 +37,8 @@ export interface ConstellationNode {
   label: string;
   kind: ConstellationNodeKind;
   source: ConstellationNodeSource;
-  imageUrl?: string;
+  thumbnailUrl?: string;
+  fullImageUrl?: string;
   momaUrl?: string;
   artist?: string;
   date?: string;
@@ -48,6 +50,7 @@ export interface ConstellationNode {
   relatedToId?: string;
   relatedToLabel?: string;
   relationSummary?: string;
+  clusterTag?: string;
   curatedId?: string;
   objectId?: number;
 }
@@ -190,6 +193,35 @@ function calculateTagScore(tags: string[], candidate: ArchiveArtworkCandidate): 
   return Number(Math.min(1, matched / Math.max(tags.length, 1)).toFixed(4));
 }
 
+export function inferClusterTag(tags: string[], candidate: ArchiveArtworkCandidate): string | null {
+  if (tags.length === 0) {
+    return null;
+  }
+
+  const searchable = normalizeText(
+    [candidate.classification, candidate.department, candidate.medium, candidate.title]
+      .filter(Boolean)
+      .join(" ")
+  );
+  if (!searchable) {
+    return null;
+  }
+
+  let bestTag: string | null = null;
+  let bestScore = 0;
+
+  for (const tag of tags) {
+    const hints = getTagHints(tag);
+    const matches = hints.filter((hint) => searchable.includes(hint)).length;
+    if (matches > bestScore) {
+      bestScore = matches;
+      bestTag = tag;
+    }
+  }
+
+  return bestScore > 0 ? normalizeText(bestTag) : null;
+}
+
 export function scoreRelatedArtwork(
   anchor: CuratedArtwork,
   candidate: ArchiveArtworkCandidate
@@ -241,7 +273,8 @@ export function toAnchorNode(artwork: CuratedArtwork): ConstellationNode {
     label: artwork.title,
     kind: "bookmarked_on_view",
     source: "curated",
-    imageUrl: artwork.thumbnail,
+    thumbnailUrl: artwork.thumbnail,
+    fullImageUrl: artwork.thumbnail,
     artist: artwork.artist,
     date: artwork.year,
     department: artwork.department,
@@ -254,7 +287,7 @@ export function toRelatedNode(
   candidate: ArchiveArtworkCandidate,
   score: number,
   reasons: string[],
-  relation?: { anchorId: string; anchorLabel: string }
+  relation?: { anchorId: string; anchorLabel: string; clusterTag?: string | null }
 ): ConstellationNode {
   const onView = normalizeText(candidate.onViewText) ? true : false;
 
@@ -264,7 +297,8 @@ export function toRelatedNode(
     label: candidate.title || "Untitled",
     kind: "related_archive",
     source: "db",
-    imageUrl: candidate.imageUrl || undefined,
+    thumbnailUrl: candidate.thumbnailUrl || candidate.fullImageUrl || undefined,
+    fullImageUrl: candidate.fullImageUrl || candidate.thumbnailUrl || undefined,
     momaUrl: candidate.momaUrl || undefined,
     artist: candidate.artist || undefined,
     date: candidate.date || undefined,
@@ -276,6 +310,7 @@ export function toRelatedNode(
     relatedToId: relation?.anchorId,
     relatedToLabel: relation?.anchorLabel,
     relationSummary: buildRelationSummary(reasons),
+    clusterTag: relation?.clusterTag ?? undefined,
   };
 }
 

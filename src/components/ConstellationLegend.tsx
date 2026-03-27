@@ -3,7 +3,7 @@
 export default function ConstellationLegend() {
   return (
     <section
-      aria-label="Constellation legend"
+      aria-label="My collection legend"
       className="rounded-xl border border-gray-200 bg-white/85 px-3 py-2 backdrop-blur-sm"
     >
       <div className="flex items-center gap-3 text-xs text-gray-700">

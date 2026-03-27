@@ -70,7 +70,7 @@ export default function ConstellationPage() {
           <p className="mb-3 text-4xl" aria-hidden>
             ☆
           </p>
-          <h1 className="mb-2 text-2xl font-black">Build your constellation</h1>
+          <h1 className="mb-2 text-2xl font-black">Build your collection</h1>
           <p className="mb-5 text-sm text-gray-600">
             Bookmark artworks on the map, then explore related works from MoMA&apos;s wider archive.
           </p>
@@ -86,20 +86,20 @@ export default function ConstellationPage() {
   }
 
   return (
-    <section className="constellation-page relative h-[calc(100dvh-64px)] overflow-hidden px-3 pb-3 pt-3">
+    <section className="constellation-page relative h-[calc(100dvh-64px)] max-h-[calc(100dvh-64px)] overflow-hidden px-3 pb-3 pt-3">
       <header className="mb-3 flex items-end justify-between px-2">
         <div>
-          <h1 className="text-xl font-black text-[var(--moma-black)]">Constellation</h1>
+          <h1 className="text-xl font-black text-[var(--moma-black)]">My Collection</h1>
           <p className="text-xs text-gray-600">Your bookmarks + archive discoveries</p>
         </div>
         <ConstellationLegend />
       </header>
 
-      <div className="relative h-[calc(100%-58px)]">
+      <div className="relative h-[calc(100%-58px)] max-h-[calc(100%-58px)] overflow-hidden">
         {status === "error" && (
           <div className="absolute inset-0 z-20 grid place-items-center rounded-2xl border border-gray-200 bg-white/90 text-center text-[var(--moma-black)]">
             <div className="px-6">
-              <p className="mb-2 text-lg font-semibold">Couldn&apos;t load constellation</p>
+              <p className="mb-2 text-lg font-semibold">Couldn&apos;t load your collection</p>
               <button
                 onClick={() => setRefreshTick((value) => value + 1)}
                 className="rounded-lg border border-gray-300 px-3 py-2 text-sm"
@@ -119,17 +119,17 @@ export default function ConstellationPage() {
           />
         ) : (
           <div className="grid h-full place-items-center rounded-2xl border border-gray-200 bg-white/85 text-sm text-gray-600">
-            {status === "loading" ? "Loading constellation..." : "Preparing graph..."}
+            {status === "loading" ? "Loading your collection..." : "Preparing your collection..."}
           </div>
         )}
 
         {data?.meta.truncated && (
-          <div className="absolute bottom-4 left-1/2 z-10 -translate-x-1/2">
+          <div className="absolute bottom-4 left-4 z-10">
             <button
               onClick={() => setMaxNodes((value) => Math.min(220, value + 40))}
               className="rounded-full border border-gray-300 bg-white/95 px-4 py-2 text-xs font-semibold text-gray-800 shadow-sm backdrop-blur-sm hover:bg-white"
             >
-              Load more nodes
+              See more art
             </button>
           </div>
         )}

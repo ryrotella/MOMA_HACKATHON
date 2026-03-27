@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { SimulationLinkDatum, SimulationNodeDatum } from "d3-force";
-import { forceCenter, forceCollide, forceLink, forceManyBody, forceSimulation } from "d3-force";
+import { forceCenter, forceCollide, forceLink, forceManyBody, forceRadial, forceSimulation, forceX, forceY } from "d3-force";
 
 import type { ConstellationEdge, ConstellationNode } from "@/lib/constellation";
 
@@ -28,8 +28,8 @@ interface Transform {
 }
 
 const NODE_RADIUS = {
-  bookmarked_on_view: 30,
-  related_archive: 20,
+  bookmarked_on_view: 41,
+  related_archive: 18,
   hub: 16,
 } as const;
 
@@ -72,11 +72,36 @@ export default function ConstellationGraph({ nodes, edges, selectedNodeId, onSel
         "link",
         forceLink<GraphNode, GraphLink>(graph.graphLinks)
           .id((d) => d.id)
-          .distance((d) => 120 - d.weight * 40)
-          .strength((d) => 0.18 + d.weight * 0.3)
+          .distance((d) => 148 - d.weight * 30)
+          .strength((d) => 0.14 + d.weight * 0.22)
       )
-      .force("charge", forceManyBody().strength(-130))
-      .force("collision", forceCollide<GraphNode>().radius((node) => NODE_RADIUS[node.kind] + 6).strength(0.85))
+      .force(
+        "charge",
+        forceManyBody<GraphNode>().strength((node) =>
+          node.kind === "bookmarked_on_view" ? -280 : -120
+        )
+      )
+      .force(
+        "root-ring",
+        forceRadial<GraphNode>(
+          (node) => (node.kind === "bookmarked_on_view" ? Math.min(width, height) * 0.3 : 0),
+          width / 2,
+          height / 2
+        ).strength((node) => (node.kind === "bookmarked_on_view" ? 0.22 : 0))
+      )
+      .force(
+        "tag-cluster-x",
+        forceX<GraphNode>((node) => clusterCenter(node.clusterTag, width, height).x).strength((node) =>
+          node.kind === "related_archive" ? 0.06 : 0
+        )
+      )
+      .force(
+        "tag-cluster-y",
+        forceY<GraphNode>((node) => clusterCenter(node.clusterTag, width, height).y).strength((node) =>
+          node.kind === "related_archive" ? 0.06 : 0
+        )
+      )
+      .force("collision", forceCollide<GraphNode>().radius((node) => NODE_RADIUS[node.kind] + 12).strength(0.9))
       .force("center", forceCenter(width / 2, height / 2))
       .alpha(1);
 
@@ -205,7 +230,7 @@ export default function ConstellationGraph({ nodes, edges, selectedNodeId, onSel
       <svg
         ref={svgRef}
         role="img"
-        aria-label="Interactive constellation graph of bookmarked and related artworks"
+        aria-label="Interactive my collection graph of bookmarked and related artworks"
         className="h-full w-full touch-none overscroll-none"
         onWheel={handleWheel}
         onPointerDown={handleBackgroundPointerDown}
@@ -219,6 +244,10 @@ export default function ConstellationGraph({ nodes, edges, selectedNodeId, onSel
             const sourcePos = positions[sourceId];
             const targetPos = positions[targetId];
             if (!sourcePos || !targetPos) return null;
+            const sourceNode = typeof edge.source === "string" ? graph.graphNodes.find((node) => node.id === edge.source) : edge.source;
+            const targetNode = typeof edge.target === "string" ? graph.graphNodes.find((node) => node.id === edge.target) : edge.target;
+            const isRootLink =
+              sourceNode?.kind === "bookmarked_on_view" || targetNode?.kind === "bookmarked_on_view";
 
             const cx = (sourcePos.x + targetPos.x) / 2;
             const cy = (sourcePos.y + targetPos.y) / 2 - 20;
@@ -229,10 +258,10 @@ export default function ConstellationGraph({ nodes, edges, selectedNodeId, onSel
                 key={edge.id}
                 d={d}
                 fill="none"
-                stroke="rgba(15,23,42,0.25)"
+                stroke={isRootLink ? "rgba(228,0,43,0.35)" : "rgba(15,23,42,0.24)"}
                 strokeWidth={Math.max(1, edge.weight * 2.4)}
-                strokeDasharray={isAnimating ? "4 5" : undefined}
-                className={isAnimating ? "constellation-edge-animate" : undefined}
+                strokeDasharray={isRootLink ? undefined : "2.5 5"}
+                className={isAnimating && isRootLink ? "constellation-edge-animate" : undefined}
               />
             );
           })}
@@ -244,6 +273,14 @@ export default function ConstellationGraph({ nodes, edges, selectedNodeId, onSel
             const isSelected = selectedNodeId === node.id;
             const stroke = node.kind === "bookmarked_on_view" ? "var(--moma-red)" : "rgba(51,65,85,0.9)";
             const clipId = `clip-${node.id.replace(/[^a-zA-Z0-9_-]/g, "_")}`;
+            const strokeWidth =
+              node.kind === "bookmarked_on_view"
+                ? isSelected
+                  ? 4
+                  : 2.8
+                : isSelected
+                  ? 2.3
+                  : 1.3;
 
             return (
               <g
@@ -253,6 +290,12 @@ export default function ConstellationGraph({ nodes, edges, selectedNodeId, onSel
                 className="cursor-pointer"
                 onClick={() => {
                   if (!didDragRef.current) onSelectNode(node);
+                }}
+                style={{
+                  filter:
+                    node.kind === "bookmarked_on_view"
+                      ? "drop-shadow(0 0 10px rgba(228,0,43,0.35))"
+                      : "drop-shadow(0 0 2px rgba(15,23,42,0.15))",
                 }}
                 onPointerDown={(event) => {
                   event.stopPropagation();
@@ -285,19 +328,19 @@ export default function ConstellationGraph({ nodes, edges, selectedNodeId, onSel
                 {node.kind === "bookmarked_on_view" ? (
                   <polygon
                     points={hexagonPoints(radius + (isSelected ? 5 : 0))}
-                    fill="rgba(228,0,43,0.18)"
+                    fill="rgba(228,0,43,0.22)"
                     stroke={stroke}
-                    strokeWidth={isSelected ? 2.5 : 1.5}
+                    strokeWidth={strokeWidth}
                   />
                 ) : (
                   <circle
                     r={radius + (isSelected ? 5 : 0)}
-                    fill="rgba(255,255,255,0.92)"
+                    fill="rgba(255,255,255,0.95)"
                     stroke={stroke}
-                    strokeWidth={isSelected ? 2.5 : 1.5}
+                    strokeWidth={strokeWidth}
                   />
                 )}
-                {node.imageUrl ? (
+                {node.thumbnailUrl ? (
                   <>
                     <defs>
                       <clipPath id={clipId}>
@@ -305,7 +348,7 @@ export default function ConstellationGraph({ nodes, edges, selectedNodeId, onSel
                       </clipPath>
                     </defs>
                     <image
-                      href={node.imageUrl}
+                      href={node.thumbnailUrl}
                       x={-radius + 3}
                       y={-radius + 3}
                       width={(radius - 3) * 2}
@@ -315,8 +358,12 @@ export default function ConstellationGraph({ nodes, edges, selectedNodeId, onSel
                     />
                   </>
                 ) : (
-                  <text textAnchor="middle" dominantBaseline="central" fontSize="9" fill="#475569">
-                    ART
+                  <text textAnchor="middle" fontSize="7" fill="#475569">
+                    {toNodePlaceholderLines(node.classification).map((line, index) => (
+                      <tspan key={`${node.id}-line-${index}`} x={0} y={index === 0 ? -4 : index * 8 - 4}>
+                        {line}
+                      </tspan>
+                    ))}
                   </text>
                 )}
                 <title>{node.label}</title>
@@ -339,6 +386,87 @@ export default function ConstellationGraph({ nodes, edges, selectedNodeId, onSel
       </div>
     </div>
   );
+}
+
+function toNodePlaceholderLines(classification?: string): string[] {
+  if (!classification) return ["Work"];
+  const normalized = classification
+    .replace(/[^a-zA-Z0-9\s&/-]/g, "")
+    .trim();
+  if (!normalized) return ["Work"];
+
+  const knownAbbreviations: Record<string, string> = {
+    "Illustrated Book": "Illus. Book",
+    "Photograph": "Photo",
+    "Gelatin silver print": "Gel. silver print",
+    "Color photograph": "Color photo",
+    "Lithograph": "Litho.",
+    "Screenprint": "Screen pt.",
+    "Offset lithograph": "Offset litho",
+    "Oil on canvas": "Oil canvas",
+    "Albumen print": "Albumen pt.",
+    "Ink on paper": "Ink paper",
+  };
+
+  const abbreviated = knownAbbreviations[normalized] ?? abbreviateArtworkType(normalized);
+  const words = abbreviated.split(/\s+/).filter(Boolean).slice(0, 3);
+
+  if (words.length === 0) return ["Work"];
+  if (words.length === 1) return [words[0]];
+  if (words.length === 2) return [words[0], words[1]];
+  return [words.slice(0, 2).join(" "), words[2]];
+}
+
+function clusterCenter(tag: string | undefined, width: number, height: number): { x: number; y: number } {
+  if (!tag) {
+    return { x: width / 2, y: height / 2 };
+  }
+  const hash = tag.split("").reduce((sum, char) => sum + char.charCodeAt(0), 0);
+  const angle = (hash % 360) * (Math.PI / 180);
+  const radius = Math.min(width, height) * 0.27;
+  return {
+    x: width / 2 + Math.cos(angle) * radius,
+    y: height / 2 + Math.sin(angle) * radius,
+  };
+}
+
+function abbreviateArtworkType(type: string): string {
+  const shortWordMap: Record<string, string> = {
+    illustrated: "Illus.",
+    illustration: "Illus.",
+    photograph: "Photo",
+    photographic: "Photo",
+    sculpture: "Sculpt.",
+    drawing: "Draw.",
+    painting: "Paint.",
+    print: "Print",
+    prints: "Prints",
+    installation: "Install.",
+    architecture: "Arch.",
+    design: "Design",
+    collage: "Collage",
+    etching: "Etch.",
+    lithograph: "Litho.",
+    screenprint: "Screen pt.",
+    book: "Book",
+    poster: "Poster",
+    textile: "Textile",
+    video: "Video",
+    film: "Film",
+  };
+
+  const words = type.split(/\s+/).filter(Boolean).slice(0, 3);
+  return words
+    .map((word) => {
+      const cleaned = word.replace(/[^a-zA-Z0-9&/-]/g, "");
+      if (!cleaned) return "";
+      const mapped = shortWordMap[cleaned.toLowerCase()];
+      if (mapped) return mapped;
+      if (cleaned.length <= 8) return cleaned;
+      return `${cleaned.slice(0, 5)}.`;
+    })
+    .filter(Boolean)
+    .join(" ");
 }
 
 function hexagonPoints(radius: number): string {
