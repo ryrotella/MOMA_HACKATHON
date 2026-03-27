@@ -49,6 +49,7 @@ export default function WrappedStories({ session }: { session: VisitSession }) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [direction, setDirection] = useState(1);
   const shareRef = useRef<HTMLDivElement>(null);
+  const nowTimestamp = session.endTime ?? session.startTime;
 
   // Compute stats
   const viewedArtworks = session.artworksViewed
@@ -60,7 +61,7 @@ export default function WrappedStories({ session }: { session: VisitSession }) {
   const totalGalleries = session.galleriesVisited.length;
   const visitDuration = session.endTime
     ? Math.round((session.endTime - session.startTime) / 60000)
-    : Math.round((Date.now() - session.startTime) / 60000);
+    : Math.round((nowTimestamp - session.startTime) / 60000);
 
   // Top artworks by dwell time
   const topArtworks = [...viewedArtworks]

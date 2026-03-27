@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 const tabs = [
   { href: "/", label: "Home", icon: HomeIcon },
   { href: "/map", label: "Map", icon: MapIcon },
+  { href: "/constellation", label: "Constellation", icon: ConstellationIcon },
   { href: "/wrapped", label: "Wrapped", icon: SparklesIcon },
 ];
 
@@ -63,6 +64,18 @@ function SparklesIcon({ active }: { active: boolean }) {
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={active ? "var(--moma-red)" : "currentColor"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+    </svg>
+  );
+}
+
+function ConstellationIcon({ active }: { active: boolean }) {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={active ? "var(--moma-red)" : "currentColor"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="5" cy="6" r="2" />
+      <circle cx="18" cy="5" r="2" />
+      <circle cx="8" cy="17" r="2.2" />
+      <circle cx="19" cy="15" r="2" />
+      <path d="M6.5 7.5l10-1.5M6.3 7.5l1.8 7.3M10 16.5l7.1-1" />
     </svg>
   );
 }

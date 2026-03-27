@@ -39,6 +39,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 |---------|-------------|
 | Interactive Map | SVG floor plans for floors 2, 4, 5 with gallery pins, popups, 2D/3D toggle |
 | Artwork Detail | Full metadata, real MoMA images, tags, bookmarking, dwell-time tracking |
+| Constellation | Force-directed bookmark + archive graph with bottom sheet details |
 | Wrapped Stories | 8-slide Spotify-style recap: stats, top artworks, Art DNA, personality |
 | Visit Tracking | Session start/end, artwork views, dwell time, floors/galleries visited |
 | Bookmarks | Persist favorites in localStorage |
@@ -50,8 +51,10 @@ This version has breaking changes — APIs, conventions, and file structure may 
 | `/` | `page.tsx` | Homepage with CTA buttons and stats |
 | `/map` | `map/page.tsx` | Floor map with tabs, 2D/3D toggle |
 | `/artwork/[id]` | `artwork/[id]/page.tsx` | SSG artwork detail (57 pages) |
+| `/constellation` | `constellation/page.tsx` | Force graph from bookmarks + archive relations |
 | `/wrapped` | `wrapped/page.tsx` | Wrapped story experience |
 | `/api/moma` | `api/moma/route.ts` | MoMA API proxy (for future live data) |
+| `/api/constellation` | `api/constellation/route.ts` | Graph payload from curated + SQLite (+ optional API enrichment) |
 
 ---
 
@@ -65,15 +68,24 @@ src/
 │   ├── globals.css           # Tailwind + Leaflet overrides + CSS vars
 │   ├── map/page.tsx          # Map page + floor tabs + 2D/3D toggle
 │   ├── artwork/[id]/page.tsx # Artwork detail (SSG)
+│   ├── constellation/page.tsx# Constellation graph experience
 │   ├── wrapped/page.tsx      # Wrapped entry point
-│   └── api/moma/route.ts     # MoMA API proxy
+│   └── api/
+│      ├── moma/route.ts      # MoMA API proxy
+│      └── constellation/route.ts # Constellation data API
 ├── components/
 │   ├── FloorMap.tsx          # Leaflet map + pins + popups
 │   ├── ArtworkDetail.tsx     # Artwork detail view
+│   ├── ConstellationGraph.tsx# Force graph renderer + controls
+│   ├── ConstellationDetailPanel.tsx # Bottom sheet metadata panel
+│   ├── ConstellationLegend.tsx # Graph visual key
 │   ├── WrappedStories.tsx    # 8-slide story experience
 │   └── BottomNav.tsx         # Tab navigation
 ├── store/
 │   └── useStore.ts           # Zustand store (bookmarks, sessions, visits)
+├── lib/
+│   ├── constellation.ts      # Types + scoring + transforms
+│   └── constellation-db.ts   # SQLite server-only query helpers
 └── data/
     ├── artworks.json         # 57 curated artworks with real image URLs
     └── galleries.json        # Gallery coordinates per floor

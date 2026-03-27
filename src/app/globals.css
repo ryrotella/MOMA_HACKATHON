@@ -111,3 +111,47 @@ body {
 .safe-bottom {
   padding-bottom: max(16px, env(safe-area-inset-bottom));
 }
+
+.constellation-page {
+  color: #1a1a1a;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(228, 0, 43, 0.08), transparent 28%),
+    radial-gradient(circle at 85% 20%, rgba(120, 130, 255, 0.08), transparent 26%),
+    #f6f7fa;
+}
+
+.constellation-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(rgba(15, 23, 42, 0.2) 0.55px, transparent 0.55px);
+  background-size: 26px 26px;
+  opacity: 0.12;
+}
+
+.constellation-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #eceff5, #dbe2ee);
+  color: #475569;
+  font-size: 11px;
+  letter-spacing: 0.03em;
+}
+
+.constellation-edge-animate {
+  animation: constellation-dash 4s linear infinite;
+}
+
+@keyframes constellation-dash {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .constellation-edge-animate {
+    animation: none;
+  }
+}

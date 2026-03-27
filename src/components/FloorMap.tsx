@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useCallback } from "react";
 import { MapContainer, ImageOverlay, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -86,19 +86,6 @@ function MapController({ floor }: { floor: number }) {
 
 export default function FloorMap({ isIsometric = false }: { isIsometric?: boolean }) {
   const { currentFloor, bookmarks, toggleBookmark, recordArtworkView, currentSession, startSession } = useStore();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    return (
-      <div className="w-full h-full flex items-center justify-center bg-gray-50">
-        <div className="animate-pulse text-gray-400">Loading map...</div>
-      </div>
-    );
-  }
 
   const floorKey = String(currentFloor) as keyof typeof galleriesData.floors;
   const floorData = galleriesData.floors[floorKey];
