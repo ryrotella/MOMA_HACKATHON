@@ -1,0 +1,3 @@
+[submodule "_db_moma-collection"]
+	path = _db_moma-collection
+	url = https://github.com/justinjohnso/moma_collection-db.git
