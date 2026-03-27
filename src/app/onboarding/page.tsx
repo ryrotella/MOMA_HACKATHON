@@ -45,8 +45,8 @@ const curatedArtworks = CURATED_PICKS.map((id) =>
 const SHOWCASE_ART = artworks.slice(0, 6);
 const DISCOVER_ART = artworks.find((a) => a.id === "map-johns")!;
 
-// Sample stamp themes to display on the artifacts screen
-const PREVIEW_STAMPS = STAMP_THEMES.slice(0, 4);
+// Show stamps that have official images first on the artifacts screen
+const PREVIEW_STAMPS = STAMP_THEMES.filter((t) => t.imageUrl).slice(0, 5);
 
 export default function OnboardingPage() {
   const router = useRouter();
@@ -194,13 +194,13 @@ export default function OnboardingPage() {
                   <p className="text-xl font-black text-center mb-8">
                     during your visit
                   </p>
-                  <div className="grid grid-cols-2 gap-6 w-full max-w-xs">
+                  <div className="flex flex-wrap justify-center gap-4 w-full max-w-sm">
                     {PREVIEW_STAMPS.map((theme, i) => (
                       <div key={theme.id} className="flex items-center justify-center">
                         <PassportStamp
                           theme={theme}
                           earned={true}
-                          size={100}
+                          size={110}
                           showAnimation={true}
                           delay={i * 0.15}
                         />

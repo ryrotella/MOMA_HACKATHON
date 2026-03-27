@@ -12,18 +12,19 @@ export type StampTheme = {
   shape: "circle" | "rect" | "square";
   color: string; // ink color
   artwork: string; // artwork reference
+  imageUrl?: string; // official stamp PNG
 };
 
 export const STAMP_THEMES: StampTheme[] = [
-  { id: "starry-night", name: "The Starry Night", artist: "Vincent van Gogh", shape: "circle", color: "#1a3a5c", artwork: "starry-night" },
+  { id: "starry-night", name: "The Starry Night", artist: "Vincent van Gogh", shape: "circle", color: "#1a3a5c", artwork: "starry-night", imageUrl: "/STAMPS/stamp-starry-night.png" },
   { id: "bicycle-wheel", name: "Bicycle Wheel", artist: "Marcel Duchamp", shape: "rect", color: "#1a3a5c", artwork: "bicycle-wheel" },
   { id: "les-demoiselles", name: "Les Demoiselles d'Avignon", artist: "Pablo Picasso", shape: "rect", color: "#1a3a5c", artwork: "les-demoiselles" },
-  { id: "self-portrait", name: "Self-Portrait", artist: "Frida Kahlo", shape: "circle", color: "#1a3a5c", artwork: "self-portrait-cropped-hair" },
-  { id: "broadacre-city", name: "Broadacre City", artist: "Frank Lloyd Wright", shape: "rect", color: "#1a3a5c", artwork: "broadacre-city" },
-  { id: "starry-swirl", name: "The Starry Night", artist: "Detail", shape: "circle", color: "#0f2847", artwork: "starry-night" },
+  { id: "self-portrait", name: "Self-Portrait", artist: "Frida Kahlo", shape: "circle", color: "#1a3a5c", artwork: "self-portrait-cropped-hair", imageUrl: "/STAMPS/stamp-explorer.png" },
+  { id: "broadacre-city", name: "Broadacre City", artist: "Frank Lloyd Wright", shape: "rect", color: "#1a3a5c", artwork: "broadacre-city", imageUrl: "/STAMPS/stamp-broadacre-city.png" },
+  { id: "starry-swirl", name: "The Starry Night", artist: "Detail", shape: "circle", color: "#0f2847", artwork: "starry-night", imageUrl: "/STAMPS/stamp-persistence.png" },
   { id: "pollock", name: "One: Number 31", artist: "Jackson Pollock", shape: "square", color: "#1a3a5c", artwork: "one-number-31" },
   { id: "campbell-soup", name: "Campbell's Soup Cans", artist: "Andy Warhol", shape: "rect", color: "#c41e2a", artwork: "campbell-soup" },
-  { id: "mike-kelley", name: "Deodorized Central Mass", artist: "Mike Kelley", shape: "rect", color: "#c41e2a", artwork: "deodorized-central-mass" },
+  { id: "mike-kelley", name: "Deodorized Central Mass", artist: "Mike Kelley", shape: "rect", color: "#c41e2a", artwork: "deodorized-central-mass", imageUrl: "/STAMPS/stamp-mike-kelley.png" },
 ];
 
 interface StampProps {
@@ -35,7 +36,25 @@ interface StampProps {
 }
 
 export function PassportStamp({ theme, earned, size = 120, showAnimation = true, delay = 0 }: StampProps) {
-  const opacity = earned ? 1 : 0.15;
+  // Use official stamp image when available
+  if (theme.imageUrl) {
+    return (
+      <motion.div
+        initial={showAnimation && earned ? { scale: 0, rotate: -15, opacity: 0 } : {}}
+        animate={showAnimation && earned ? { scale: 1, rotate: 0, opacity: 1 } : {}}
+        transition={{ delay, type: "spring", stiffness: 150, damping: 15 }}
+        style={{ width: size, height: size, opacity: earned ? 1 : 0.15 }}
+        className="flex items-center justify-center"
+      >
+        <img
+          src={theme.imageUrl}
+          alt={`${theme.name} stamp`}
+          style={{ width: size, height: size, objectFit: "contain" }}
+          draggable={false}
+        />
+      </motion.div>
+    );
+  }
 
   if (theme.shape === "circle") {
     return (
