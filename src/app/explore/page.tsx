@@ -1,15 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import ArtworkImage from "@/components/ArtworkImage";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import artworks from "@/data/artworks.json";
 import { useStore } from "@/store/useStore";
 
-// Floor 2 → 4 → 5 (ascending, start from 2)
+// Floor 4 → 5 (floor 2 hidden)
 const FLOORS = [
-  { num: 2, era: "1980s–Present", color: "#B8CCE4", bgLight: "#EDF2F9" },
   { num: 4, era: "1950s–1970s", color: "#F2C6C6", bgLight: "#FBF0F0" },
   { num: 5, era: "1880s–1940s", color: "#F2D6B3", bgLight: "#FAF3EA" },
 ];
@@ -20,12 +19,29 @@ const artworksByFloor = FLOORS.map((floor) => ({
 }));
 
 export default function ExplorePage() {
-  const [visibleFloor, setVisibleFloor] = useState(2);
+  const [visibleFloor, setVisibleFloor] = useState(4);
+  const [failedImageIds, setFailedImageIds] = useState<Set<string>>(new Set());
+  const [isHydrated, setIsHydrated] = useState(false);
   const { isBookmarked } = useStore();
   const sectionRefs = useRef<Map<number, HTMLDivElement>>(new Map());
   const headerRef = useRef<HTMLDivElement>(null);
+  const visibleArtworksByFloor = useMemo(
+    () =>
+      artworksByFloor.map((floor) => ({
+        ...floor,
+        artworks: floor.artworks.filter(
+          (artwork) => Boolean(artwork.thumbnail?.trim()) && !failedImageIds.has(artwork.id)
+        ),
+      })),
+    [failedImageIds]
+  );
 
   const currentFloorData = FLOORS.find((f) => f.num === visibleFloor) ?? FLOORS[0];
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => setIsHydrated(true), 0);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   // Intersection Observer — update header as floor sections scroll into view
   useEffect(() => {
@@ -129,7 +145,7 @@ export default function ExplorePage() {
 
       {/* Floor sections */}
       <div className="pb-28">
-        {artworksByFloor.map((floor) => (
+        {visibleArtworksByFloor.map((floor) => (
           <div
             key={floor.num}
             ref={(el) => {
@@ -180,8 +196,16 @@ export default function ExplorePage() {
                         width={200}
                         height={200}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        onError={() => {
+                          setFailedImageIds((current) => {
+                            if (current.has(artwork.id)) return current;
+                            const next = new Set(current);
+                            next.add(artwork.id);
+                            return next;
+                          });
+                        }}
                       />
-                      {isBookmarked(artwork.id) && (
+                      {isHydrated && isBookmarked(artwork.id) && (
                         <div className="absolute top-2 right-2 w-6 h-6 bg-[var(--moma-red)] rounded-full flex items-center justify-center">
                           <svg width="12" height="12" viewBox="0 0 24 24" fill="white" stroke="none">
                             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
