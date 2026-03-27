@@ -9,6 +9,7 @@ interface Props {
   edges: ConstellationEdge[];
   selectedNodeId?: string | null;
   onSelectNode: (node: ConstellationNode) => void;
+  onBackgroundClick?: () => void;
 }
 
 interface Transform {
@@ -26,7 +27,13 @@ const NODE_RADIUS = {
 const ROOT_NODE_GREEN = "#8DBE9F";
 const RECOMMENDATION_BLUE = "#B8CCE4";
 
-export default function ConstellationGraph({ nodes, edges, selectedNodeId, onSelectNode }: Props) {
+export default function ConstellationGraph({
+  nodes,
+  edges,
+  selectedNodeId,
+  onSelectNode,
+  onBackgroundClick,
+}: Props) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const svgRef = useRef<SVGSVGElement | null>(null);
   const [viewport, setViewport] = useState({ width: 900, height: 620 });
@@ -101,7 +108,8 @@ export default function ConstellationGraph({ nodes, edges, selectedNodeId, onSel
 
   const handleBackgroundPointerDown: React.PointerEventHandler<SVGSVGElement> = (event) => {
     if (event.button !== 0 || (event.target as Element).closest("[data-node='true']")) return;
-    try { event.currentTarget.setPointerCapture(event.pointerId); } catch { /* mobile may reject */ }
+    onBackgroundClick?.();
+    event.currentTarget.setPointerCapture(event.pointerId);
     setHovered(null);
     dragViewRef.current = {
       startX: event.clientX,
@@ -119,7 +127,9 @@ export default function ConstellationGraph({ nodes, edges, selectedNodeId, onSel
   };
 
   const handleBackgroundPointerUp: React.PointerEventHandler<SVGSVGElement> = (event) => {
-    try { event.currentTarget.releasePointerCapture(event.pointerId); } catch { /* already released */ }
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
     dragViewRef.current = null;
   };
 

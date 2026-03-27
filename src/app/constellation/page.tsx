@@ -20,6 +20,20 @@ export default function ConstellationPage() {
   const [selectedNode, setSelectedNode] = useState<ConstellationNode | null>(null);
 
   const bookmarkParam = useMemo(() => bookmarks.join(","), [bookmarks]);
+  const relatedNodesForSelection = useMemo(() => {
+    if (!data || !selectedNode) return [];
+    const nodeById = new Map(data.nodes.map((node) => [node.id, node]));
+    const connectedIds = new Set<string>();
+
+    for (const edge of data.edges) {
+      if (edge.source === selectedNode.id) connectedIds.add(edge.target);
+      if (edge.target === selectedNode.id) connectedIds.add(edge.source);
+    }
+
+    return [...connectedIds]
+      .map((id) => nodeById.get(id))
+      .filter((node): node is ConstellationNode => Boolean(node));
+  }, [data, selectedNode]);
 
   useEffect(() => {
     const previousHtmlOverflow = document.documentElement.style.overflow;
@@ -127,7 +141,10 @@ export default function ConstellationPage() {
             nodes={data.nodes}
             edges={data.edges}
             selectedNodeId={selectedNode?.id ?? null}
-            onSelectNode={(node) => setSelectedNode(node)}
+            onSelectNode={(node) =>
+              setSelectedNode((current) => (current?.id === node.id ? null : node))
+            }
+            onBackgroundClick={() => setSelectedNode(null)}
           />
         ) : (
           <div className="grid h-full place-items-center rounded-2xl border border-gray-200 bg-white/85 text-sm text-gray-600">
@@ -145,7 +162,12 @@ export default function ConstellationPage() {
             </button>
           </div>
         )}
-        <ConstellationDetailPanel selectedNode={selectedNode} onClose={() => setSelectedNode(null)} />
+        <ConstellationDetailPanel
+          selectedNode={selectedNode}
+          relatedNodes={relatedNodesForSelection}
+          onSelectRelatedNode={(node) => setSelectedNode(node)}
+          onClose={() => setSelectedNode(null)}
+        />
       </div>
     </section>
   );
