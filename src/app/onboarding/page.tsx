@@ -43,7 +43,7 @@ const curatedArtworks = CURATED_PICKS.map((id) =>
 
 // Showcase art for the feature slides
 const SHOWCASE_ART = artworks.slice(0, 6);
-const DISCOVER_ART = artworks.find((a) => a.id === "sleeping-gypsy")!;
+const DISCOVER_ART = artworks.find((a) => a.id === "map-johns")!;
 
 // Sample stamp themes to display on the artifacts screen
 const PREVIEW_STAMPS = STAMP_THEMES.slice(0, 4);
