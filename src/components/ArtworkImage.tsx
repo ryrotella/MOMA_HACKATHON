@@ -5,6 +5,7 @@ import Image, { type ImageProps } from "next/image";
 
 interface ArtworkImageProps extends Omit<ImageProps, "onError"> {
   fallbackClassName?: string;
+  onError?: () => void;
 }
 
 /**
@@ -14,6 +15,7 @@ export default function ArtworkImage({
   alt,
   className,
   fallbackClassName,
+  onError,
   ...props
 }: ArtworkImageProps) {
   const [failed, setFailed] = useState(false);
@@ -49,7 +51,10 @@ export default function ArtworkImage({
     <Image
       alt={alt}
       className={className}
-      onError={() => setFailed(true)}
+      onError={() => {
+        setFailed(true);
+        onError?.();
+      }}
       {...props}
     />
   );
