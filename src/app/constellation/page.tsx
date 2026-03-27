@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import Link from "next/link";
 
 import ConstellationDetailPanel from "@/components/ConstellationDetailPanel";
 import ConstellationGraph from "@/components/ConstellationGraph";
@@ -10,16 +9,24 @@ import type { ConstellationNode, ConstellationResponse } from "@/lib/constellati
 import { useStore } from "@/store/useStore";
 
 const INITIAL_MAX_NODES = 120;
+const DEFAULT_SAVED_ARTWORK_ID = "starry-night";
 
 export default function ConstellationPage() {
   const savedArtworks = useStore((state) => state.savedArtworks);
+  const effectiveSavedArtworks = useMemo(
+    () =>
+      savedArtworks.length > 0
+        ? savedArtworks
+        : [DEFAULT_SAVED_ARTWORK_ID],
+    [savedArtworks]
+  );
   const [maxNodes, setMaxNodes] = useState(INITIAL_MAX_NODES);
   const [refreshTick, setRefreshTick] = useState(0);
   const [data, setData] = useState<ConstellationResponse | null>(null);
   const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
   const [selectedNode, setSelectedNode] = useState<ConstellationNode | null>(null);
 
-  const bookmarkParam = useMemo(() => savedArtworks.join(","), [savedArtworks]);
+  const bookmarkParam = useMemo(() => effectiveSavedArtworks.join(","), [effectiveSavedArtworks]);
   const relatedNodesForSelection = useMemo(() => {
     if (!data || !selectedNode) return [];
     const nodeById = new Map(data.nodes.map((node) => [node.id, node]));
@@ -48,12 +55,6 @@ export default function ConstellationPage() {
   }, []);
 
   useEffect(() => {
-    if (savedArtworks.length === 0) {
-      setData(null);
-      setSelectedNode(null);
-      return;
-    }
-
     const abortController = new AbortController();
     const load = async () => {
       setStatus("loading");
@@ -79,7 +80,7 @@ export default function ConstellationPage() {
 
     load();
     return () => abortController.abort();
-  }, [bookmarkParam, savedArtworks.length, maxNodes, refreshTick]);
+  }, [bookmarkParam, maxNodes, refreshTick]);
 
   useEffect(() => {
     if (!selectedNode || !data) return;
@@ -88,28 +89,6 @@ export default function ConstellationPage() {
       setSelectedNode(null);
     }
   }, [data, selectedNode]);
-
-  if (savedArtworks.length === 0) {
-    return (
-      <section className="constellation-page min-h-screen px-5 py-10">
-        <div className="mx-auto max-w-md rounded-2xl border border-gray-200 bg-white/90 p-6 text-center text-[var(--moma-black)] shadow-sm backdrop-blur-sm">
-          <p className="mb-3 text-4xl" aria-hidden>
-            ☆
-          </p>
-          <h1 className="mb-2 text-2xl font-black">Build your collection</h1>
-          <p className="mb-5 text-sm text-gray-600">
-            Save artworks you like while exploring, then discover related works from MoMA&apos;s wider archive.
-          </p>
-          <Link
-            href="/explore"
-            className="inline-flex rounded-xl bg-[var(--moma-red)] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#c80025] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--moma-red)]"
-          >
-            Go to explore
-          </Link>
-        </div>
-      </section>
-    );
-  }
 
   return (
     <section className="constellation-page relative h-[calc(100dvh-64px)] max-h-[calc(100dvh-64px)] overflow-hidden px-3 pb-3 pt-3">

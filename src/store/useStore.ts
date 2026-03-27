@@ -1,6 +1,14 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
+const DEFAULT_SAVED_ARTWORK_ID = 'starry-night';
+
+function withDefaultSavedArtwork(ids: string[] | undefined): string[] {
+  const unique = new Set(ids ?? []);
+  unique.delete(DEFAULT_SAVED_ARTWORK_ID);
+  return [DEFAULT_SAVED_ARTWORK_ID, ...unique];
+}
+
 export interface ArtworkVisit {
   artworkId: string;
   timestamp: number;
@@ -122,13 +130,13 @@ export const useStore = create<AppState>()(
         }
       },
       isBookmarked: (artworkId: string) => get().bookmarks.includes(artworkId),
-      savedArtworks: [],
+      savedArtworks: [DEFAULT_SAVED_ARTWORK_ID],
       toggleSavedArtwork: (artworkId: string) => {
         const { savedArtworks } = get();
         if (savedArtworks.includes(artworkId)) {
-          set({ savedArtworks: savedArtworks.filter((id) => id !== artworkId) });
+          set({ savedArtworks: withDefaultSavedArtwork(savedArtworks.filter((id) => id !== artworkId)) });
         } else {
-          set({ savedArtworks: [...savedArtworks, artworkId] });
+          set({ savedArtworks: withDefaultSavedArtwork([...savedArtworks, artworkId]) });
         }
       },
       isSavedArtwork: (artworkId: string) => get().savedArtworks.includes(artworkId),
@@ -356,7 +364,7 @@ export const useStore = create<AppState>()(
       resetAllData: () => {
         set({
           bookmarks: [],
-          savedArtworks: [],
+          savedArtworks: [DEFAULT_SAVED_ARTWORK_ID],
           onboardingComplete: false,
           onboardingAnswers: { firstTime: null, color: null, artMedium: null },
           recommendations: [],
@@ -371,6 +379,14 @@ export const useStore = create<AppState>()(
     }),
     {
       name: 'moma-explorer-storage',
+      merge: (persistedState, currentState) => {
+        const persisted = (persistedState ?? {}) as Partial<AppState>;
+        return {
+          ...currentState,
+          ...persisted,
+          savedArtworks: withDefaultSavedArtwork(persisted.savedArtworks),
+        };
+      },
       partialize: (state) => ({
         bookmarks: state.bookmarks,
         savedArtworks: state.savedArtworks,

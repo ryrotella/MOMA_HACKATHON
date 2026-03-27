@@ -274,6 +274,10 @@ function SquareStamp({ theme, size }: { theme: StampTheme; size: number; earned:
 // Center motifs for each stamp - simple SVG art that evokes the artwork
 function StampCenterMotif({ theme, cx, cy, size }: { theme: StampTheme; cx: number; cy: number; size: number }) {
   const s = size / 2;
+  const point = (angle: number, radius: number): number =>
+    Number((Math.cos((angle * Math.PI) / 180) * s * radius).toFixed(4));
+  const pointY = (angle: number, radius: number): number =>
+    Number((Math.sin((angle * Math.PI) / 180) * s * radius).toFixed(4));
 
   switch (theme.id) {
     case "starry-night":
@@ -284,8 +288,8 @@ function StampCenterMotif({ theme, cx, cy, size }: { theme: StampTheme; cx: numb
           {[0, 60, 120, 180, 240, 300].map((angle) => (
             <circle
               key={angle}
-              cx={Math.cos((angle * Math.PI) / 180) * s * 0.55}
-              cy={Math.sin((angle * Math.PI) / 180) * s * 0.55}
+              cx={point(angle, 0.55)}
+              cy={pointY(angle, 0.55)}
               r={s * 0.1}
               fill={theme.color}
             />
@@ -312,12 +316,12 @@ function StampCenterMotif({ theme, cx, cy, size }: { theme: StampTheme; cx: numb
           <circle cx="0" cy="0" r={s * 0.7} fill="none" stroke={theme.color} strokeWidth="2" />
           <circle cx="0" cy="0" r={s * 0.15} fill="none" stroke={theme.color} strokeWidth="1.5" />
           {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((angle) => (
-            <line
+              <line
               key={angle}
-              x1={Math.cos((angle * Math.PI) / 180) * s * 0.15}
-              y1={Math.sin((angle * Math.PI) / 180) * s * 0.15}
-              x2={Math.cos((angle * Math.PI) / 180) * s * 0.7}
-              y2={Math.sin((angle * Math.PI) / 180) * s * 0.7}
+              x1={point(angle, 0.15)}
+              y1={pointY(angle, 0.15)}
+              x2={point(angle, 0.7)}
+              y2={pointY(angle, 0.7)}
               stroke={theme.color}
               strokeWidth="0.8"
             />

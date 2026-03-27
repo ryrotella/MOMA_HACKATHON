@@ -47,6 +47,15 @@ export default function ConstellationGraph({
     () => computeNodePositions(nodes, viewport.width, viewport.height),
     [nodes, viewport.width, viewport.height]
   );
+  const fitTransform = useMemo(
+    () => computeFitTransform(nodes, positions, viewport.width, viewport.height),
+    [nodes, positions, viewport.width, viewport.height]
+  );
+
+  useEffect(() => {
+    setTransform(fitTransform);
+    setSmoothedTransform(fitTransform);
+  }, [fitTransform]);
 
   useEffect(() => {
     let raf = 0;
@@ -286,7 +295,7 @@ export default function ConstellationGraph({
         <GraphControl label="Zoom out" onClick={() => setTransform((prev) => ({ ...prev, k: Math.max(0.55, prev.k - 0.15) }))}>
           −
         </GraphControl>
-        <GraphControl label="Reset view" onClick={() => setTransform({ x: 0, y: 0, k: 1 })}>
+        <GraphControl label="Reset view" onClick={() => setTransform(fitTransform)}>
           ⟳
         </GraphControl>
       </div>
@@ -392,6 +401,52 @@ function computeNodePositions(
 
   resolveNodeCollisions(nodes, positions, width, height);
   return positions;
+}
+
+function computeFitTransform(
+  nodes: ConstellationNode[],
+  positions: Record<string, { x: number; y: number }>,
+  viewportWidth: number,
+  viewportHeight: number
+): Transform {
+  if (nodes.length === 0 || viewportWidth <= 0 || viewportHeight <= 0) {
+    return { x: 0, y: 0, k: 1 };
+  }
+
+  let minX = Number.POSITIVE_INFINITY;
+  let maxX = Number.NEGATIVE_INFINITY;
+  let minY = Number.POSITIVE_INFINITY;
+  let maxY = Number.NEGATIVE_INFINITY;
+
+  for (const node of nodes) {
+    const pos = positions[node.id];
+    if (!pos) continue;
+    const r = NODE_RADIUS[node.kind] + 14;
+    minX = Math.min(minX, pos.x - r);
+    maxX = Math.max(maxX, pos.x + r);
+    minY = Math.min(minY, pos.y - r);
+    maxY = Math.max(maxY, pos.y + r);
+  }
+
+  if (!Number.isFinite(minX) || !Number.isFinite(maxX) || !Number.isFinite(minY) || !Number.isFinite(maxY)) {
+    return { x: 0, y: 0, k: 1 };
+  }
+
+  const contentWidth = Math.max(1, maxX - minX);
+  const contentHeight = Math.max(1, maxY - minY);
+  const contentCenterX = (minX + maxX) / 2;
+  const contentCenterY = (minY + maxY) / 2;
+
+  const padding = 36;
+  const scaleX = (viewportWidth - padding * 2) / contentWidth;
+  const scaleY = (viewportHeight - padding * 2) / contentHeight;
+  const k = clamp(Math.min(scaleX, scaleY), 0.55, 2.4);
+
+  return {
+    x: viewportWidth / 2 - contentCenterX * k,
+    y: viewportHeight / 2 - contentCenterY * k,
+    k,
+  };
 }
 
 function resolveNodeCollisions(
