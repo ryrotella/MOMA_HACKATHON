@@ -13,11 +13,15 @@ export default function StampToast() {
 
   // On first render, snapshot existing earned stamps so we don't toast them
   useEffect(() => {
+    let enqueueToastTimer: ReturnType<typeof setTimeout> | undefined;
+
     if (!initializedRef.current) {
       const earned = stamps.filter((s) => s.earnedAt);
       lastEarnedIdsRef.current = new Set(earned.map((s) => s.id));
       initializedRef.current = true;
-      return;
+      return () => {
+        if (enqueueToastTimer) clearTimeout(enqueueToastTimer);
+      };
     }
 
     const earned = stamps.filter((s) => s.earnedAt);
@@ -27,14 +31,17 @@ export default function StampToast() {
     if (!suppressStampToast) {
       for (const stamp of earned) {
         if (!lastEarnedIdsRef.current.has(stamp.id)) {
-          setToastStamp(stamp);
+          enqueueToastTimer = setTimeout(() => setToastStamp(stamp), 0);
           break;
         }
       }
     }
 
     lastEarnedIdsRef.current = earnedIds;
-  }, [stamps]);
+    return () => {
+      if (enqueueToastTimer) clearTimeout(enqueueToastTimer);
+    };
+  }, [stamps, suppressStampToast]);
 
   // Auto-dismiss after 3 seconds
   useEffect(() => {

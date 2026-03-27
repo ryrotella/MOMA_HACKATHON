@@ -1,8 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { SimulationLinkDatum, SimulationNodeDatum } from "d3-force";
-import { forceCenter, forceCollide, forceLink, forceManyBody, forceRadial, forceSimulation, forceX, forceY } from "d3-force";
 
 import type { ConstellationEdge, ConstellationNode } from "@/lib/constellation";
 
@@ -11,14 +9,6 @@ interface Props {
   edges: ConstellationEdge[];
   selectedNodeId?: string | null;
   onSelectNode: (node: ConstellationNode) => void;
-}
-
-interface GraphNode extends SimulationNodeDatum, ConstellationNode {}
-interface GraphLink extends SimulationLinkDatum<GraphNode> {
-  id: string;
-  source: string | GraphNode;
-  target: string | GraphNode;
-  weight: number;
 }
 
 interface Transform {
@@ -33,104 +23,23 @@ const NODE_RADIUS = {
   hub: 16,
 } as const;
 
+const ROOT_NODE_GREEN = "#8DBE9F";
+const RECOMMENDATION_BLUE = "#B8CCE4";
+
 export default function ConstellationGraph({ nodes, edges, selectedNodeId, onSelectNode }: Props) {
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const svgRef = useRef<SVGSVGElement | null>(null);
-  const simulationRef = useRef<ReturnType<typeof forceSimulation<GraphNode>> | null>(null);
-  const [positions, setPositions] = useState<Record<string, { x: number; y: number }>>({});
+  const [viewport, setViewport] = useState({ width: 900, height: 620 });
   const [transform, setTransform] = useState<Transform>({ x: 0, y: 0, k: 1 });
   const [smoothedTransform, setSmoothedTransform] = useState<Transform>({ x: 0, y: 0, k: 1 });
-  const [draggingId, setDraggingId] = useState<string | null>(null);
-  const didDragRef = useRef(false);
-  const dragStartRef = useRef<{ x: number; y: number } | null>(null);
   const dragViewRef = useRef<{ startX: number; startY: number; originX: number; originY: number } | null>(null);
-  const [isAnimating, setIsAnimating] = useState(true);
+  const [hovered, setHovered] = useState<{ node: ConstellationNode; x: number; y: number } | null>(null);
 
-  const graph = useMemo(() => {
-    const graphNodes: GraphNode[] = nodes.map((node, index) => ({
-      ...node,
-      x: index * 10,
-      y: index * 6,
-      vx: 0,
-      vy: 0,
-    }));
-
-    const graphLinks: GraphLink[] = edges.map((edge) => ({
-      id: edge.id,
-      source: edge.source,
-      target: edge.target,
-      weight: edge.weight,
-    }));
-
-    return { graphNodes, graphLinks };
-  }, [nodes, edges]);
-
-  useEffect(() => {
-    if (!svgRef.current || graph.graphNodes.length === 0) return;
-
-    const { width, height } = svgRef.current.getBoundingClientRect();
-    const simulation = forceSimulation(graph.graphNodes)
-      .force(
-        "link",
-        forceLink<GraphNode, GraphLink>(graph.graphLinks)
-          .id((d) => d.id)
-          .distance((d) => 148 - d.weight * 30)
-          .strength((d) => 0.14 + d.weight * 0.22)
-      )
-      .force(
-        "charge",
-        forceManyBody<GraphNode>().strength((node) =>
-          node.kind === "bookmarked_on_view" ? -280 : -120
-        )
-      )
-      .force(
-        "root-ring",
-        forceRadial<GraphNode>(
-          (node) => (node.kind === "bookmarked_on_view" ? Math.min(width, height) * 0.3 : 0),
-          width / 2,
-          height / 2
-        ).strength((node) => (node.kind === "bookmarked_on_view" ? 0.22 : 0))
-      )
-      .force(
-        "tag-cluster-x",
-        forceX<GraphNode>((node) => clusterCenter(node.clusterTag, width, height).x).strength((node) =>
-          node.kind === "related_archive" ? 0.06 : 0
-        )
-      )
-      .force(
-        "tag-cluster-y",
-        forceY<GraphNode>((node) => clusterCenter(node.clusterTag, width, height).y).strength((node) =>
-          node.kind === "related_archive" ? 0.06 : 0
-        )
-      )
-      .force("collision", forceCollide<GraphNode>().radius((node) => NODE_RADIUS[node.kind] + 12).strength(0.9))
-      .force("center", forceCenter(width / 2, height / 2))
-      .alpha(1);
-
-    simulationRef.current = simulation;
-
-    let frame = 0;
-    simulation.on("tick", () => {
-      frame += 1;
-      if (frame % 2 !== 0) return;
-      const next: Record<string, { x: number; y: number }> = {};
-      for (const node of graph.graphNodes) {
-        if (typeof node.x === "number" && typeof node.y === "number") {
-          next[node.id] = { x: node.x, y: node.y };
-        }
-      }
-      setPositions(next);
-    });
-
-    const stopTimer = window.setTimeout(() => {
-      setIsAnimating(false);
-      simulation.alphaTarget(0);
-    }, 1800);
-
-    return () => {
-      window.clearTimeout(stopTimer);
-      simulation.stop();
-    };
-  }, [graph]);
+  const nodeById = useMemo(() => new Map(nodes.map((node) => [node.id, node])), [nodes]);
+  const positions = useMemo(
+    () => computeNodePositions(nodes, viewport.width, viewport.height),
+    [nodes, viewport.width, viewport.height]
+  );
 
   useEffect(() => {
     let raf = 0;
@@ -150,40 +59,42 @@ export default function ConstellationGraph({ nodes, edges, selectedNodeId, onSel
   }, [transform]);
 
   useEffect(() => {
-    const handleResize = () => {
-      if (!svgRef.current || !simulationRef.current) return;
-      const { width, height } = svgRef.current.getBoundingClientRect();
-      simulationRef.current.force("center", forceCenter(width / 2, height / 2));
-      simulationRef.current.alpha(0.4).restart();
-      setIsAnimating(true);
-      window.setTimeout(() => setIsAnimating(false), 1000);
+    const element = svgRef.current;
+    if (!element) return;
+    const update = () => {
+      const rect = element.getBoundingClientRect();
+      if (rect.width > 0 && rect.height > 0) {
+        setViewport({ width: rect.width, height: rect.height });
+      }
     };
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(element);
+    return () => observer.disconnect();
   }, []);
-
-  const isDraggingRef = useRef(false);
-  useEffect(() => { isDraggingRef.current = draggingId !== null || dragViewRef.current !== null; });
 
   useEffect(() => {
     const element = svgRef.current;
     if (!element) return;
-    const preventScroll = (event: TouchEvent) => {
-      // Always prevent during active node drag or pan; prevent single-touch otherwise
-      // to avoid accidental page bounce while interacting with the graph
-      if (isDraggingRef.current || event.touches.length === 1) {
-        event.preventDefault();
-      }
+    const preventWheel = (event: WheelEvent) => {
+      event.preventDefault();
+      event.stopPropagation();
     };
+    const preventScroll = (event: TouchEvent) => {
+      event.preventDefault();
+      event.stopPropagation();
+    };
+    element.addEventListener("wheel", preventWheel, { passive: false });
     element.addEventListener("touchmove", preventScroll, { passive: false });
     return () => {
+      element.removeEventListener("wheel", preventWheel);
       element.removeEventListener("touchmove", preventScroll);
     };
   }, []);
 
   const handleWheel: React.WheelEventHandler<SVGSVGElement> = (event) => {
     event.preventDefault();
+    event.stopPropagation();
     const nextScale = Math.min(2.4, Math.max(0.55, transform.k + (event.deltaY > 0 ? -0.1 : 0.1)));
     setTransform((prev) => ({ ...prev, k: nextScale }));
   };
@@ -191,6 +102,7 @@ export default function ConstellationGraph({ nodes, edges, selectedNodeId, onSel
   const handleBackgroundPointerDown: React.PointerEventHandler<SVGSVGElement> = (event) => {
     if (event.button !== 0 || (event.target as Element).closest("[data-node='true']")) return;
     event.currentTarget.setPointerCapture(event.pointerId);
+    setHovered(null);
     dragViewRef.current = {
       startX: event.clientX,
       startY: event.clientY,
@@ -213,28 +125,21 @@ export default function ConstellationGraph({ nodes, edges, selectedNodeId, onSel
     dragViewRef.current = null;
   };
 
-  const setNodeFixedPosition = (nodeId: string, x: number, y: number) => {
-    const sim = simulationRef.current;
-    if (!sim) return;
-    const node = sim.nodes().find((item) => item.id === nodeId);
-    if (!node) return;
-    node.fx = x;
-    node.fy = y;
-    sim.alpha(0.5).restart();
-  };
-
-  const releaseNodeFixedPosition = (nodeId: string) => {
-    const sim = simulationRef.current;
-    if (!sim) return;
-    const node = sim.nodes().find((item) => item.id === nodeId);
-    if (!node) return;
-    node.fx = null;
-    node.fy = null;
-    sim.alpha(0.25).restart();
+  const updateHoverPosition = (clientX: number, clientY: number, node: ConstellationNode) => {
+    const rect = containerRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    setHovered({
+      node,
+      x: Math.min(rect.width - 12, Math.max(12, clientX - rect.left + 14)),
+      y: Math.min(rect.height - 12, Math.max(12, clientY - rect.top - 12)),
+    });
   };
 
   return (
-    <div className="relative h-full w-full overflow-hidden rounded-2xl border border-gray-200 bg-[radial-gradient(circle_at_20%_20%,rgba(228,0,43,0.08),transparent_30%),radial-gradient(circle_at_80%_20%,rgba(100,116,255,0.08),transparent_24%),#ffffff]">
+    <div
+      ref={containerRef}
+      className="relative h-full w-full overflow-hidden rounded-2xl border border-gray-200 bg-[radial-gradient(circle_at_20%_20%,rgba(228,0,43,0.08),transparent_30%),radial-gradient(circle_at_80%_20%,rgba(100,116,255,0.08),transparent_24%),#ffffff]"
+    >
       <svg
         ref={svgRef}
         role="img"
@@ -246,14 +151,12 @@ export default function ConstellationGraph({ nodes, edges, selectedNodeId, onSel
         onPointerUp={handleBackgroundPointerUp}
       >
         <g transform={`translate(${smoothedTransform.x}, ${smoothedTransform.y}) scale(${smoothedTransform.k})`}>
-          {graph.graphLinks.map((edge) => {
-            const sourceId = typeof edge.source === "string" ? edge.source : edge.source.id;
-            const targetId = typeof edge.target === "string" ? edge.target : edge.target.id;
-            const sourcePos = positions[sourceId];
-            const targetPos = positions[targetId];
+          {edges.map((edge) => {
+            const sourcePos = positions[edge.source];
+            const targetPos = positions[edge.target];
             if (!sourcePos || !targetPos) return null;
-            const sourceNode = typeof edge.source === "string" ? graph.graphNodes.find((node) => node.id === edge.source) : edge.source;
-            const targetNode = typeof edge.target === "string" ? graph.graphNodes.find((node) => node.id === edge.target) : edge.target;
+            const sourceNode = nodeById.get(edge.source);
+            const targetNode = nodeById.get(edge.target);
             const isRootLink =
               sourceNode?.kind === "bookmarked_on_view" || targetNode?.kind === "bookmarked_on_view";
 
@@ -262,32 +165,36 @@ export default function ConstellationGraph({ nodes, edges, selectedNodeId, onSel
             const d = `M${sourcePos.x},${sourcePos.y} Q${cx},${cy} ${targetPos.x},${targetPos.y}`;
 
             return (
-              <path
-                key={edge.id}
-                d={d}
-                fill="none"
-                stroke={isRootLink ? "rgba(228,0,43,0.35)" : "rgba(15,23,42,0.24)"}
-                strokeWidth={Math.max(1, edge.weight * 2.4)}
-                strokeDasharray={isRootLink ? undefined : "2.5 5"}
-                className={isAnimating && isRootLink ? "constellation-edge-animate" : undefined}
-              />
+                <path
+                  key={edge.id}
+                  d={d}
+                  fill="none"
+                  stroke={isRootLink ? "rgba(141,190,159,0.42)" : "rgba(184,204,228,0.55)"}
+                  strokeWidth={Math.max(1, edge.weight * 2.4)}
+                  strokeDasharray={isRootLink ? undefined : "2.5 5"}
+                />
             );
           })}
 
-          {graph.graphNodes.map((node) => {
+          {nodes.map((node) => {
             const pos = positions[node.id];
             if (!pos) return null;
             const radius = NODE_RADIUS[node.kind];
             const isSelected = selectedNodeId === node.id;
-            const stroke = node.kind === "bookmarked_on_view" ? "var(--moma-red)" : "rgba(51,65,85,0.9)";
+            const isHovered = hovered?.node.id === node.id;
+            const stroke = node.kind === "bookmarked_on_view" ? ROOT_NODE_GREEN : RECOMMENDATION_BLUE;
             const clipId = `clip-${node.id.replace(/[^a-zA-Z0-9_-]/g, "_")}`;
             const strokeWidth =
               node.kind === "bookmarked_on_view"
                 ? isSelected
                   ? 4
+                  : isHovered
+                    ? 3.4
                   : 2.8
                 : isSelected
                   ? 2.3
+                  : isHovered
+                    ? 2
                   : 1.3;
 
             return (
@@ -296,62 +203,32 @@ export default function ConstellationGraph({ nodes, edges, selectedNodeId, onSel
                 data-node="true"
                 transform={`translate(${pos.x}, ${pos.y})`}
                 className="cursor-pointer"
-                onClick={() => {
-                  if (!didDragRef.current) onSelectNode(node);
-                }}
+                onClick={() => onSelectNode(node)}
                 style={{
                   filter:
                     node.kind === "bookmarked_on_view"
-                      ? "drop-shadow(0 0 10px rgba(228,0,43,0.35))"
-                      : "drop-shadow(0 0 2px rgba(15,23,42,0.15))",
+                      ? isHovered
+                        ? "drop-shadow(0 0 16px rgba(141,190,159,0.62))"
+                        : "drop-shadow(0 0 10px rgba(141,190,159,0.38))"
+                      : isHovered
+                        ? "drop-shadow(0 0 10px rgba(184,204,228,0.75))"
+                        : "drop-shadow(0 0 2px rgba(184,204,228,0.42))",
                 }}
-                onPointerDown={(event) => {
-                  event.stopPropagation();
-                  svgRef.current?.setPointerCapture(event.pointerId);
-                  didDragRef.current = false;
-                  dragStartRef.current = { x: event.clientX, y: event.clientY };
-                  setDraggingId(node.id);
-                  setNodeFixedPosition(node.id, pos.x, pos.y);
-                }}
-                onPointerMove={(event) => {
-                  if (draggingId !== node.id) return;
-                  event.stopPropagation();
-                  if (!didDragRef.current && dragStartRef.current) {
-                    const dx = event.clientX - dragStartRef.current.x;
-                    const dy = event.clientY - dragStartRef.current.y;
-                    if (dx * dx + dy * dy < 25) return; // 5px threshold
-                    didDragRef.current = true;
-                  }
-                  const svg = svgRef.current;
-                  if (!svg) return;
-                  const ctm = svg.getScreenCTM();
-                  if (!ctm) return;
-                  const transformed = new DOMPoint(event.clientX, event.clientY).matrixTransform(ctm.inverse());
-                  const translatedX = (transformed.x - smoothedTransform.x) / smoothedTransform.k;
-                  const translatedY = (transformed.y - smoothedTransform.y) / smoothedTransform.k;
-                  setNodeFixedPosition(node.id, translatedX, translatedY);
-                }}
-                onPointerUp={(event) => {
-                  event.stopPropagation();
-                  if (svgRef.current?.hasPointerCapture(event.pointerId)) {
-                    svgRef.current.releasePointerCapture(event.pointerId);
-                  }
-                  releaseNodeFixedPosition(node.id);
-                  dragStartRef.current = null;
-                  setDraggingId(null);
-                }}
+                onPointerEnter={(event) => updateHoverPosition(event.clientX, event.clientY, node)}
+                onPointerMove={(event) => updateHoverPosition(event.clientX, event.clientY, node)}
+                onPointerLeave={() => setHovered((current) => (current?.node.id === node.id ? null : current))}
               >
                 {node.kind === "bookmarked_on_view" ? (
                   <polygon
-                    points={hexagonPoints(radius + (isSelected ? 5 : 0))}
-                    fill="rgba(228,0,43,0.22)"
+                    points={hexagonPoints(radius + (isSelected ? 5 : isHovered ? 3 : 0))}
+                    fill="rgba(141,190,159,0.24)"
                     stroke={stroke}
                     strokeWidth={strokeWidth}
                   />
                 ) : (
                   <circle
-                    r={radius + (isSelected ? 5 : 0)}
-                    fill="rgba(255,255,255,0.95)"
+                    r={radius + (isSelected ? 5 : isHovered ? 3 : 0)}
+                    fill="rgba(184,204,228,0.18)"
                     stroke={stroke}
                     strokeWidth={strokeWidth}
                   />
@@ -382,7 +259,7 @@ export default function ConstellationGraph({ nodes, edges, selectedNodeId, onSel
                     ))}
                   </text>
                 )}
-                <title>{node.label}</title>
+                <title>{`${node.label}${node.artist ? ` — ${node.artist}` : ""}`}</title>
               </g>
             );
           })}
@@ -400,6 +277,16 @@ export default function ConstellationGraph({ nodes, edges, selectedNodeId, onSel
           ⟳
         </GraphControl>
       </div>
+
+      {hovered && (
+        <div
+          className="pointer-events-none absolute z-30 max-w-[220px] -translate-y-full rounded-lg border border-gray-200 bg-white/95 px-3 py-2 shadow-lg backdrop-blur-sm"
+          style={{ left: hovered.x, top: hovered.y }}
+        >
+          <p className="text-xs font-semibold leading-tight text-[var(--moma-black)]">{hovered.node.label}</p>
+          <p className="mt-0.5 text-[11px] leading-tight text-gray-600">{hovered.node.artist || "Unknown artist"}</p>
+        </div>
+      )}
     </div>
   );
 }
@@ -444,6 +331,130 @@ function clusterCenter(tag: string | undefined, width: number, height: number): 
     x: width / 2 + Math.cos(angle) * radius,
     y: height / 2 + Math.sin(angle) * radius,
   };
+}
+
+function computeNodePositions(
+  nodes: ConstellationNode[],
+  width: number,
+  height: number
+): Record<string, { x: number; y: number }> {
+  const positions: Record<string, { x: number; y: number }> = {};
+  const centerX = width / 2;
+  const centerY = height / 2;
+  const roots = nodes.filter((node) => node.kind === "bookmarked_on_view");
+  const related = nodes.filter((node) => node.kind !== "bookmarked_on_view");
+
+  const rootRadius = Math.min(width, height) * 0.31;
+  roots.forEach((root, index) => {
+    const angle = (index / Math.max(roots.length, 1)) * Math.PI * 2 - Math.PI / 2;
+    positions[root.id] = {
+      x: centerX + Math.cos(angle) * rootRadius,
+      y: centerY + Math.sin(angle) * rootRadius,
+    };
+  });
+
+  const grouped = new Map<string, ConstellationNode[]>();
+  for (const node of related) {
+    const key = node.clusterTag || "misc";
+    const bucket = grouped.get(key) ?? [];
+    bucket.push(node);
+    grouped.set(key, bucket);
+  }
+
+  for (const [tag, group] of grouped) {
+    const tagCenter = clusterCenter(tag, width, height);
+    group.forEach((node, index) => {
+      const parent = node.relatedToId ? positions[node.relatedToId] : undefined;
+      const anchor = parent ?? tagCenter;
+      const hash = hashString(`${node.id}:${tag}`);
+      const angle = ((hash % 360) * Math.PI) / 180;
+      const ring = 34 + (index % 4) * 16;
+      const drift = (Math.floor(hash / 360) % 3) * 10;
+      positions[node.id] = {
+        x: anchor.x + Math.cos(angle) * (ring + drift),
+        y: anchor.y + Math.sin(angle) * (ring + drift),
+      };
+    });
+  }
+
+  resolveNodeCollisions(nodes, positions, width, height);
+  return positions;
+}
+
+function resolveNodeCollisions(
+  nodes: ConstellationNode[],
+  positions: Record<string, { x: number; y: number }>,
+  width: number,
+  height: number
+) {
+  const placement = nodes.map((node) => ({
+    node,
+    pos: positions[node.id],
+    radius: NODE_RADIUS[node.kind] + 6,
+  }));
+  if (placement.some((entry) => !entry.pos)) return;
+
+  const minX = 12;
+  const minY = 12;
+  const maxX = Math.max(minX + 1, width - 12);
+  const maxY = Math.max(minY + 1, height - 12);
+
+  for (let pass = 0; pass < 30; pass += 1) {
+    let moved = false;
+    for (let i = 0; i < placement.length; i += 1) {
+      const a = placement[i];
+      if (!a.pos) continue;
+      for (let j = i + 1; j < placement.length; j += 1) {
+        const b = placement[j];
+        if (!b.pos) continue;
+
+        let dx = b.pos.x - a.pos.x;
+        let dy = b.pos.y - a.pos.y;
+        let distance = Math.hypot(dx, dy);
+        const minDistance = a.radius + b.radius;
+
+        if (distance < 0.001) {
+          const nudge = (hashString(`${a.node.id}:${b.node.id}:${pass}`) % 360) * (Math.PI / 180);
+          dx = Math.cos(nudge);
+          dy = Math.sin(nudge);
+          distance = 1;
+        }
+
+        if (distance >= minDistance) continue;
+
+        const overlap = minDistance - distance;
+        const ux = dx / distance;
+        const uy = dy / distance;
+        const shift = overlap / 2 + 0.5;
+
+        a.pos.x -= ux * shift;
+        a.pos.y -= uy * shift;
+        b.pos.x += ux * shift;
+        b.pos.y += uy * shift;
+        moved = true;
+      }
+    }
+
+    for (const entry of placement) {
+      if (!entry.pos) continue;
+      entry.pos.x = clamp(entry.pos.x, minX + entry.radius, maxX - entry.radius);
+      entry.pos.y = clamp(entry.pos.y, minY + entry.radius, maxY - entry.radius);
+    }
+
+    if (!moved) break;
+  }
+}
+
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(max, Math.max(min, value));
+}
+
+function hashString(value: string): number {
+  let hash = 0;
+  for (let i = 0; i < value.length; i += 1) {
+    hash = (hash * 31 + value.charCodeAt(i)) >>> 0;
+  }
+  return hash;
 }
 
 function abbreviateArtworkType(type: string): string {

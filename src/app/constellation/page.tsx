@@ -22,6 +22,18 @@ export default function ConstellationPage() {
   const bookmarkParam = useMemo(() => bookmarks.join(","), [bookmarks]);
 
   useEffect(() => {
+    const previousHtmlOverflow = document.documentElement.style.overflow;
+    const previousBodyOverflow = document.body.style.overflow;
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.documentElement.style.overflow = previousHtmlOverflow;
+      document.body.style.overflow = previousBodyOverflow;
+    };
+  }, []);
+
+  useEffect(() => {
     if (bookmarks.length === 0) {
       setData(null);
       setSelectedNode(null);
