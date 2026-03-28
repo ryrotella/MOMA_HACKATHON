@@ -1,16 +1,42 @@
 "use client";
 
+import { useMemo } from "react";
+
 import { useStore } from "@/store/useStore";
 import WrappedStories from "@/components/WrappedStories";
 import Link from "next/link";
 
+const DEFAULT_SAVED_ARTWORK_ID = "starry-night";
+
 export default function WrappedPage() {
-  const { currentSession, pastSessions } = useStore();
+  const { currentSession, pastSessions, savedArtworks } = useStore();
 
   // Use current session or most recent past session
   const session = currentSession || pastSessions[pastSessions.length - 1];
+  const effectiveSavedArtworks = useMemo(() => {
+    const unique = new Set(savedArtworks);
+    unique.add(DEFAULT_SAVED_ARTWORK_ID);
+    return [...unique];
+  }, [savedArtworks]);
+  const effectiveSession = useMemo(() => {
+    if (!session) return null;
+    const alreadyViewed = new Set(session.artworksViewed.map((view) => view.artworkId));
+    const syntheticViews = effectiveSavedArtworks
+      .filter((artworkId) => !alreadyViewed.has(artworkId))
+      .map((artworkId) => ({
+        artworkId,
+        timestamp: session.startTime,
+        dwellTime: 1,
+      }));
 
-  if (!session || session.artworksViewed.length === 0) {
+    if (syntheticViews.length === 0) return session;
+    return {
+      ...session,
+      artworksViewed: [...session.artworksViewed, ...syntheticViews],
+    };
+  }, [effectiveSavedArtworks, session]);
+
+  if (!effectiveSession || effectiveSession.artworksViewed.length === 0) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center px-6 text-center">
         <div className="text-6xl mb-4">🎨</div>
@@ -28,5 +54,5 @@ export default function WrappedPage() {
     );
   }
 
-  return <WrappedStories session={session} />;
+  return <WrappedStories session={effectiveSession} />;
 }
